@@ -1,15 +1,16 @@
-﻿# CMakeList.txt: файл проекта CMake верхнего уровня; проведите глобальную конфигурацию
-# и включите сюда подпроекты.
-#
-cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required(VERSION 3.10)
 
-# Включение горячей перезагрузки для компиляторов MSVC, если поддерживается.
-if (POLICY CMP0141)
-  cmake_policy(SET CMP0141 NEW)
-  set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
-endif()
 
-project ("CLIlib")
+set(CMAKE_CXX_STANDARD 14)
 
-# Включите подпроекты.
-add_subdirectory ("CLIlib")
+project(
+    CLIlib
+    VERSION 0.1.0
+    LANGUAGES CXX
+    DESCRIPTION "Small library for implementation command line interface."
+)
+# Добавьте источник в исполняемый файл этого проекта.
+add_library (CLIlib "src/CLIlib.cpp" "src/CLIlib.h")
+
+add_executable(test "src/test.cpp")
+target_link_libraries(test PRIVATE CLIlib)
