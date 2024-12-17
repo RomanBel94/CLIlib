@@ -7,7 +7,7 @@ int main(int argc, char** argv)
 	cli.parse_arguments();
 
 	for (const auto& token : cli.tokens())
-		std::cout << token << std::endl;
+		std::cout << token.first << " " << token.second << std::endl;
 
 	return 0;
 }

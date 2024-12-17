@@ -12,43 +12,21 @@
 
 namespace CLI
 {
-	class Token
-	{
-	private:
-
-		std::string _key;
-		std::string _value;
-
-	public:
-
-		Token(std::string& key, std::string& value) : _key(key), _value(value) {}
-		Token(const std::string& key, const std::string& value) : _key(key), _value(value) {}
-		Token(const std::pair<std::string, std::string>& pair) : _key(pair.first), _value(pair.second) {}
-		Token(std::string&& key, std::string&& value) noexcept : _key(std::move(key)), _value(std::move(value)) {}
-		Token& operator=(const Token& rhs);
-		//Token& operator=(Token&& rhs) noexcept;
-		bool operator==(const Token& rhs) const noexcept { return _key == rhs._key; }
-		friend std::ostream& operator<<(std::ostream& stream, const Token& token);
-		friend std::ofstream& operator<<(std::ofstream& stream, const Token& token);
-
-		struct Hash{ size_t operator()(const Token& token) const { return std::hash<std::string>()(token.key()); }};
-
-		const std::string& key() const noexcept { return _key; }
-		const std::string& value() const noexcept { return _value; }
-	};
-
 	class CLI
 	{
+    using _Param = std::string;
+    using _Value = std::string;
+    using token = std::pair<_Param, _Value>;
+
 	private:
 		int argc{ 0 };
 		char** argv{ nullptr };
 
-		std::string _current_key{};
-		std::string _current_value{};
+		_Param _current_param{};
+		_Value _current_value{};
 
-		std::unordered_set<Token, Token::Hash> _collected_data{};
-		std::unordered_set<std::string> _valid_arguments{};
-		std::list<Token> _tokens{};
+		std::unordered_set<_Param> _valid_parameters{};
+		std::list<token> _tokens{};
 
 		CLI(const CLI&) = delete;
 		CLI(CLI&&) = delete;
@@ -62,9 +40,8 @@ namespace CLI
 		CLI(int argc, char** argv) : argc(argc), argv(argv) {}
 		~CLI() = default;
 
-		const auto& collected_data() const noexcept { return _collected_data; }
 		const auto& tokens() const noexcept { return _tokens; }
-		void add_option(const std::string& opt) { _valid_arguments.emplace(opt); }
+		void add_option(const std::string& opt) { _valid_parameters.emplace(opt); }
 
 		void parse_arguments();
 
