@@ -3,6 +3,7 @@
 
 #include <unordered_set>
 #include <stdexcept>
+#include <cctype>
 #include <memory>
 #include <string>
 #include <list>
@@ -30,7 +31,9 @@ namespace CLI
 		CLI& operator=(const CLI&) = delete;
 		CLI& operator=(const CLI&&) = delete;
 
-		bool _is_valid(const std::string& argument) const noexcept;
+		void _extract_keys(const char* keys);
+		void _append_param();
+		void _validate_current_arg() const;
 
 	public:
 
@@ -38,7 +41,7 @@ namespace CLI
 		~CLI() = default;
 
 		const auto& tokens() const noexcept { return _tokens; }
-		void add_option(const std::string& opt) { _valid_parameters.emplace(opt); }
+		void add_option(const std::string&& opt) { _valid_parameters.emplace(opt); }
 
 		void parse_arguments(int argc, char** argv);
 
