@@ -18,7 +18,7 @@ namespace CLI
 
 	std::shared_ptr<::CLI::CLI>& CLI::get_instance()
 	{
-		static std::shared_ptr<::CLI::CLI> ptr{ new ::CLI::CLI };
+		static std::shared_ptr<::CLI::CLI> ptr{ new ::CLI::CLI() };
 		return ptr;
 	}
 
@@ -27,10 +27,9 @@ namespace CLI
 		while (*keys)
 		{
 			_current_param = *(keys++);
-			_current_value = "0";
+		    _current_value = "";
 			while (isdigit(*keys))
 			{
-				_current_value = "";
 				_current_value += *(keys++);
 			}
 			_append_param();

@@ -1,6 +1,7 @@
 ﻿#pragma once
 #ifndef CLI_LIB_H
 
+#include <initializer_list>
 #include <unordered_set>
 #include <stdexcept>
 #include <cctype>
@@ -29,7 +30,7 @@ namespace CLI
 		CLI(const CLI&) = delete;
 		CLI(CLI&&) = delete;
 		CLI& operator=(const CLI&) = delete;
-		CLI& operator=(const CLI&&) = delete;
+		CLI& operator=(CLI&&) = delete;
 
 		void _extract_keys(const char* keys);
 		void _append_param();
@@ -41,7 +42,8 @@ namespace CLI
 		~CLI() = default;
 
 		const auto& tokens() const noexcept { return _tokens; }
-		void add_option(const std::string opt) { _valid_parameters.emplace(std::move(opt)); }
+
+		void add_option(const _Param& opt) { _valid_parameters.emplace(std::move(opt)); }
 
 		void parse_arguments(int argc, char** argv);
 
