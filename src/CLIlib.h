@@ -1,7 +1,6 @@
 ﻿#pragma once
 #ifndef CLI_LIB_H
 
-#include <initializer_list>
 #include <unordered_set>
 #include <stdexcept>
 #include <cctype>
