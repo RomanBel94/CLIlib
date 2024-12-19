@@ -10,7 +10,7 @@ project(
     DESCRIPTION "Small library for implementation command line interface."
 )
 # Добавьте источник в исполняемый файл этого проекта.
-add_library (CLIlib "src/CLIlib.cpp" "src/CLIlib.h")
+add_library (CLIlib "${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.h")
 
-add_executable(test "src/test.cpp")
+add_executable(test "${CMAKE_CURRENT_SOURCE_DIR}/src/test.cpp")
 target_link_libraries(test PRIVATE CLIlib)
