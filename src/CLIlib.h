@@ -41,7 +41,7 @@ namespace CLI
 		~CLI() = default;
 
 		const auto& tokens() const noexcept { return _tokens; }
-		void add_option(const std::string&& opt) { _valid_parameters.emplace(opt); }
+		void add_option(const std::string opt) { _valid_parameters.emplace(std::move(opt)); }
 
 		void parse_arguments(int argc, char** argv);
 
