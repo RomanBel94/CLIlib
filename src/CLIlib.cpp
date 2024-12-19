@@ -12,7 +12,7 @@ namespace CLI
 		{
 			if (argv[i][0] == '-' && argv[i][1] == '-');
 			else if (argv[i][0] == '-' && argv[i][1]) _extract_keys(argv[i] + 1);
-			// else _current_value = argv[i];
+			else _tokens.back().second = argv[i];
 		}
 	}
 
