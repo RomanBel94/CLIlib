@@ -31,7 +31,8 @@ namespace CLI
 		CLI& operator=(const CLI&) = delete;
 		CLI& operator=(CLI&&) = delete;
 
-		void _extract_keys(const char* keys);
+		void _extract_short_opts(const char* opts);
+		void _extract_long_opt(const char* opt);
 		void _append_token();
 		void _validate_current_arg() const;
 
@@ -46,6 +47,7 @@ namespace CLI
 		void add_short_opts(const std::initializer_list<_Param>& list);
 		void add_short_opts(const std::initializer_list<char>& list);
 		void add_short_opts(const _Param& params);
+		void add_long_opt(const _Param& opt);
 		void parse_args(int argc, char** argv);
 		void clear();
 

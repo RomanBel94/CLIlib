@@ -25,6 +25,11 @@ namespace CLI
 			add_short_opt(key);
 	}
 
+	void CLI::add_long_opt(const _Param& opt)
+	{
+		_valid_parameters.emplace(opt);
+	}
+
 	void CLI::parse_args(int argc, char** argv)
 	{
 		// bush back first token (argv[0])
@@ -34,11 +39,11 @@ namespace CLI
 		{
 			if (argv[i][0] == '-' && argv[i][1] == '-')
 			{
-				;
+				_extract_long_opt(argv[i] + 2);
 			}
 			else if (argv[i][0] == '-' && argv[i][1])
 			{
-				_extract_keys(argv[i] + 1);
+				_extract_short_opts(argv[i] + 1);
 			}
 			else 
 			{
@@ -67,18 +72,34 @@ namespace CLI
 		return ptr;
 	}
 
-	void CLI::_extract_keys(const char* keys)
+	void CLI::_extract_short_opts(const char* opt)
 	{
-		while (*keys)
+		while (*opt)
 		{
-			_current_param = *keys++;
+			_current_param = *opt++;
 		    _current_value = "";
-			while (isdigit(*keys))
+			while (isdigit(*opt))
 			{
-				_current_value += *keys++;
+				_current_value += *opt++;
 			}
 			_append_token();
 		}
+	}
+
+	void CLI::_extract_long_opt(const char* opt)
+	{
+		_current_param = "";
+		_current_value = "";
+		while (*opt && *opt != '=')
+		{
+			_current_param += *opt++;
+		}
+		if (*opt == '=')
+		{
+			++opt;
+			_current_value = opt;
+		}
+		_append_token();
 	}
 
 	void CLI::_append_token()
