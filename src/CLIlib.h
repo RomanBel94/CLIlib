@@ -19,10 +19,10 @@ namespace CLI
 
 	private:
 
-		_Param _current_param{'*'};
+		_Param _current_param{};
 		_Value _current_value{};
 
-		std::unordered_set<_Param> _valid_parameters{{'*'},};
+		std::unordered_set<_Param> _valid_parameters{};
 		std::list<token> _tokens{};
 
 		CLI() = default;
@@ -32,28 +32,30 @@ namespace CLI
 		CLI& operator=(CLI&&) = delete;
 
 		void _extract_keys(const char* keys);
-		void _append_param();
+		void _append_token();
 		void _validate_current_arg() const;
 
 	public:
 
-		static std::shared_ptr<CLI>& get_instance();
+		static std::shared_ptr<CLI>& get_instance() noexcept;
 		~CLI() = default;
 
 		const auto& tokens() const noexcept { return _tokens; }
 
-		void add_option(const _Param& opt) { _valid_parameters.emplace(std::move(opt)); }
-
+		void add_option(const _Param& opt) { _valid_parameters.emplace(opt); }
+		void add_options(const std::initializer_list<_Param>& list);
+		void add_options(const _Param& params);
 		void parse_arguments(int argc, char** argv);
 
 	};
 
-	class CLI_parsing_error : public std::runtime_error
+	class cli_parsing_error : public std::runtime_error
 	{
 	public:
-		CLI_parsing_error(const char* str) : runtime_error(str) {}
-		CLI_parsing_error(const std::string& str) : runtime_error(str) {}
-		CLI_parsing_error(const runtime_error& error) : runtime_error(error) {}
+		cli_parsing_error(const char* str) : runtime_error(str) {}
+		cli_parsing_error(const std::string& str) : runtime_error(str) {}
+		cli_parsing_error(const std::string&& str) : runtime_error(std::move(str)) {}
+		cli_parsing_error(const runtime_error& error) : runtime_error(error) {}
 	};
 }
 
