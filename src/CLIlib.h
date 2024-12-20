@@ -54,7 +54,6 @@ namespace CLI
 	public:
 		cli_parsing_error(const char* str) : runtime_error(str) {}
 		cli_parsing_error(const std::string& str) : runtime_error(str) {}
-		cli_parsing_error(const std::string&& str) : runtime_error(std::move(str)) {}
 		cli_parsing_error(const runtime_error& error) : runtime_error(error) {}
 	};
 }
