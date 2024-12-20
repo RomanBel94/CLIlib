@@ -22,7 +22,7 @@ namespace CLI
 	void CLI::parse_arguments(int argc, char** argv)
 	{
 		// bush back first token (argv[0])
-		_tokens.emplace_back(argv[0], argv[0]);
+		_tokens.emplace_back("", argv[0]);
 
 		for (int i{ 1 }; i < argc; ++i)
 		{
