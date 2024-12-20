@@ -42,14 +42,14 @@ namespace CLI
 			}
 			else 
 			{
-				if (_tokens.back().second != "")
+				if (_tokens.back().second == "")
 				{
-					_current_value = argv[i];
-					_append_token();
+					_tokens.back().second = argv[i];
 				}
 				else
 				{
-					_tokens.back().second = argv[i];
+					_current_value = argv[i];
+					_append_token();
 				}
 			}
 		}
