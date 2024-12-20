@@ -42,7 +42,7 @@ namespace CLI
 
 		const auto& tokens() const noexcept { return _tokens; }
 
-		void add_option(const _Param& opt) { _valid_parameters.emplace(opt); }
+		void add_option(const _Param& opt);
 		void add_options(const std::initializer_list<_Param>& list);
 		void add_options(const _Param& params);
 		void parse_arguments(int argc, char** argv);
@@ -55,6 +55,7 @@ namespace CLI
 		cli_parsing_error(const char* str) : runtime_error(str) {}
 		cli_parsing_error(const std::string& str) : runtime_error(str) {}
 		cli_parsing_error(const runtime_error& error) : runtime_error(error) {}
+		cli_parsing_error(runtime_error&& error) : runtime_error(std::move(error)) {}
 	};
 }
 

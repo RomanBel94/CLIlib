@@ -2,6 +2,11 @@
 
 namespace CLI
 {
+	void CLI::add_option(const _Param& opt)
+	{
+		_valid_parameters.emplace(opt);
+	}
+
 	void CLI::add_options(const std::initializer_list<_Param>& list)
 	{
 		for (const auto& key : list)
