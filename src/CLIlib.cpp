@@ -7,22 +7,22 @@ namespace CLI
 		_valid_parameters.emplace(1, opt);
 	}
 
+	void CLI::add_short_opts(const _Param& opts)
+	{
+		for (auto opt : opts)
+			add_short_opt(opt);
+	}
+
 	void CLI::add_short_opts(const std::initializer_list<_Param>& list)
 	{
-		for (const auto& key : list)
-			add_short_opts(key);
+		for (const auto& param : list)
+			add_short_opts(param);
 	}
 
 	void CLI::add_short_opts(const std::initializer_list<char>& list)
 	{
-		for (auto key : list)
-			add_short_opt(key);
-	}
-
-	void CLI::add_short_opts(const _Param& params)
-	{
-		for (auto key : params)
-			add_short_opt(key);
+		for (auto opt : list)
+			add_short_opt(opt);
 	}
 
 	void CLI::add_long_opt(const _Param& opt)
