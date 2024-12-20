@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 	catch (const CLI::cli_parsing_error& er)
 	{
 		std::cout << er.what() << std::endl;
-		exit(-1);
+		return -1;
 	}
 
 	for (const auto& token : cli->tokens())
