@@ -54,11 +54,11 @@ namespace CLI
 	{
 		while (*keys)
 		{
-			_current_param = *(keys++);
+			_current_param = *keys++;
 		    _current_value = "";
 			while (isdigit(*keys))
 			{
-				_current_value += *(keys++);
+				_current_value += *keys++;
 			}
 			_append_token();
 		}
