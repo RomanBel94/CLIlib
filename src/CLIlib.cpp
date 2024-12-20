@@ -49,6 +49,12 @@ namespace CLI
 		}
 	}
 
+	void CLI::clear_cli()
+	{
+		_tokens.clear();
+		_valid_parameters.clear();
+	}
+
 	std::shared_ptr<::CLI::CLI>& CLI::get_instance() noexcept
 	{
 		static std::shared_ptr<::CLI::CLI> ptr{ new ::CLI::CLI() };

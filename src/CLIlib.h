@@ -46,6 +46,7 @@ namespace CLI
 		void add_options(const std::initializer_list<_Param>& list);
 		void add_options(const _Param& params);
 		void parse_arguments(int argc, char** argv);
+		void clear_cli();
 
 	};
 
