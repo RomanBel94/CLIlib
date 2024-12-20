@@ -4,12 +4,6 @@
 int main(int argc, char** argv)
 {
 	auto& cli = CLI::CLI::get_instance();
-	cli->add_short_opt('a');
-	cli->add_short_opt('f');
-	cli->add_short_opts({ "ds", "bn" });
-	cli->add_short_opts({ 'z', 'x'});
-	cli->add_short_opts("qwerty");
-	cli->add_long_opt("test");
 
 	try
 	{

@@ -111,6 +111,6 @@ namespace CLI
 	void CLI::_validate_current_arg() const
 	{
 		if (_valid_parameters.find(_current_param) == _valid_parameters.end())
-			throw cli_parsing_error("ERROR: Invalid argument " + _current_param);
+			throw cli_parsing_error("ERROR: Invalid argument: " + _current_param);
 	}
 }
