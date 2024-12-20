@@ -2,24 +2,30 @@
 
 namespace CLI
 {
-	void CLI::add_option(const _Param& opt)
+	void CLI::add_short_opt(const char opt)
 	{
-		_valid_parameters.emplace(opt);
+		_valid_parameters.emplace(1, opt);
 	}
 
-	void CLI::add_options(const std::initializer_list<_Param>& list)
+	void CLI::add_short_opts(const std::initializer_list<_Param>& list)
 	{
 		for (const auto& key : list)
-			_valid_parameters.emplace(key);
+			add_short_opts(key);
 	}
 
-	void CLI::add_options(const _Param& params)
+	void CLI::add_short_opts(const std::initializer_list<char>& list)
+	{
+		for (auto key : list)
+			add_short_opt(key);
+	}
+
+	void CLI::add_short_opts(const _Param& params)
 	{
 		for (auto key : params)
-			_valid_parameters.emplace(_Param(1, key));
+			add_short_opt(key);
 	}
 
-	void CLI::parse_arguments(int argc, char** argv)
+	void CLI::parse_args(int argc, char** argv)
 	{
 		// bush back first token (argv[0])
 		_tokens.emplace_back("", argv[0]);
@@ -49,7 +55,7 @@ namespace CLI
 		}
 	}
 
-	void CLI::clear_cli()
+	void CLI::clear()
 	{
 		_tokens.clear();
 		_valid_parameters.clear();

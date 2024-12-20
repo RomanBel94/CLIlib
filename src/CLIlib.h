@@ -42,11 +42,12 @@ namespace CLI
 
 		const auto& tokens() const noexcept { return _tokens; }
 
-		void add_option(const _Param& opt);
-		void add_options(const std::initializer_list<_Param>& list);
-		void add_options(const _Param& params);
-		void parse_arguments(int argc, char** argv);
-		void clear_cli();
+		void add_short_opt(const char opt);
+		void add_short_opts(const std::initializer_list<_Param>& list);
+		void add_short_opts(const std::initializer_list<char>& list);
+		void add_short_opts(const _Param& params);
+		void parse_args(int argc, char** argv);
+		void clear();
 
 	};
 

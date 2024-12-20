@@ -3,15 +3,16 @@
 
 int main(int argc, char** argv)
 {
-	auto cli = CLI::CLI::get_instance();
-	cli->add_option("a");
-	cli->add_option("f");
-	cli->add_options({ "d", "s" });
-	cli->add_options("qwerty");
+	auto& cli = CLI::CLI::get_instance();
+	cli->add_short_opt('a');
+	cli->add_short_opt('f');
+	cli->add_short_opts({ "ds", "bn" });
+	cli->add_short_opts({ 'z', 'x'});
+	cli->add_short_opts("qwerty");
 
 	try
 	{
-		cli->parse_arguments(argc, argv);
+		cli->parse_args(argc, argv);
 	}
 	catch (const CLI::cli_parsing_error& er)
 	{
