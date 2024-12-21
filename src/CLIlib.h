@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include <initializer_list>
 #ifndef CLI_LIB_H
 
 #include <unordered_set>
@@ -39,18 +38,25 @@ namespace CLI
 
 	public:
 
-		static std::shared_ptr<CLI>& get_instance() noexcept;
+		static std::shared_ptr<CLI>& get_instance();
+
 		~CLI() = default;
 
 		const auto& tokens() const noexcept { return _tokens; }
 
 		void add_short_opt(const char opt);
         void add_short_opts(const _Param& opts);
-		void add_short_opts(const std::initializer_list<_Param>& list);
 		void add_short_opts(const std::initializer_list<char>& list);
+		void add_short_opts(const std::initializer_list<_Param>& list);
+
+        template<typename ...Args>
+        void add_short_opts(Args&& ...args) { add_short_opts({args...}); }
 
 		void add_long_opt(const _Param& opt);
         void add_long_opts(const std::initializer_list<_Param>& list);
+
+        template<typename ...Args>
+        void add_long_opts(Args&&... args) { add_long_opts({args...}); }
 
 		void parse_args(int argc, char** argv);
 		void clear();

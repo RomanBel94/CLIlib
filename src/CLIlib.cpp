@@ -1,8 +1,13 @@
 ﻿#include "CLIlib.h"
-#include <initializer_list>
 
 namespace CLI
 {
+    std::shared_ptr<CLI>& CLI::get_instance()
+    {
+        static std::shared_ptr<CLI> ptr { new CLI() };
+        return ptr;
+    }
+
 	void CLI::add_short_opt(const char opt)
 	{
 		_valid_parameters.emplace(1, opt);
@@ -52,18 +57,15 @@ namespace CLI
 			{
 				_extract_short_opts(argv[i] + 1);
 			}
-			else 
+			else if (_tokens.back().second == "")
 			{
-				if (_tokens.back().second == "")
-				{
 					_tokens.back().second = argv[i];
-				}
-				else
-				{
-					_current_value = argv[i];
-					_append_token();
-				}
 			}
+            else 
+            {                
+			    _current_value = argv[i];
+			    _append_token();
+            }
 		}
 	}
 
@@ -71,12 +73,6 @@ namespace CLI
 	{
 		_tokens.clear();
 		_valid_parameters.clear();
-	}
-
-	std::shared_ptr<::CLI::CLI>& CLI::get_instance() noexcept
-	{
-		static std::shared_ptr<::CLI::CLI> ptr{ new ::CLI::CLI() };
-		return ptr;
 	}
 
 	void CLI::_extract_short_opts(const char* opt)
