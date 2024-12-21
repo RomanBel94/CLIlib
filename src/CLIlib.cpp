@@ -13,6 +13,11 @@ namespace CLI
 		_valid_parameters.emplace(1, opt);
 	}
 
+    void CLI::add_short_opt(const _Param& opt)
+    {
+        add_short_opt(opt[0]);
+    }
+
 	void CLI::add_short_opts(const _Param& opts)
 	{
 		for (auto opt : opts)

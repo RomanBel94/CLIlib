@@ -50,6 +50,7 @@ namespace CLI
 		const auto& tokens() const noexcept { return _tokens; }
 
 		void add_short_opt(const char opt);
+        void add_short_opt(const _Param& opt);
         void add_short_opts(const _Param& opts);
 		void add_short_opts(const std::initializer_list<char>& list);
 		void add_short_opts(const std::initializer_list<_Param>& list);
