@@ -2,9 +2,9 @@
 
 namespace CLI
 {
-    std::shared_ptr<CLI>& CLI::get_instance()
+    const std::shared_ptr<CLI>& CLI::get_instance()
     {
-        static std::shared_ptr<CLI> ptr { new CLI() };
+        static const std::shared_ptr<CLI> ptr { new CLI() };
         return ptr;
     }
 

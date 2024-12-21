@@ -44,7 +44,7 @@ namespace CLI
 
 	public:
 
-		static std::shared_ptr<CLI>& get_instance();
+		static const std::shared_ptr<CLI>& get_instance();
 
 		~CLI() = default;
 
