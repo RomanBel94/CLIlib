@@ -8,32 +8,27 @@ namespace CLI
         return ptr;
     }
 
-	void CLI::add_short_opt(const char opt)
+	void CLI::add_opt(const char opt)
 	{
 		_valid_parameters.emplace(1, opt);
 	}
 
-    void CLI::add_short_opt(const _Param& opt)
-    {
-        add_short_opt(opt[0]);
-    }
-
-	void CLI::add_short_opts(const _Param& opts)
+	void CLI::add_opts(const _Param& opts)
 	{
 		for (auto opt : opts)
-			add_short_opt(opt);
+			add_opt(opt);
 	}
 
-	void CLI::add_short_opts(const std::initializer_list<_Param>& list)
+	void CLI::add_opts(const std::initializer_list<_Param>& list)
 	{
 		for (const auto& param : list)
-			add_short_opts(param);
+			add_opts(param);
 	}
 
-	void CLI::add_short_opts(const std::initializer_list<char>& list)
+	void CLI::add_opts(const std::initializer_list<char>& list)
 	{
 		for (auto opt : list)
-			add_short_opt(opt);
+			add_opt(opt);
 	}
 
 	void CLI::add_long_opt(const _Param& opt)
@@ -64,10 +59,14 @@ namespace CLI
             else
 			{
                 if (_tokens.back().value == EMPTY)
-					_tokens.back().value = argv[i];
+                {
+                    _tokens.back().value = argv[i];
+                }
                 else 
                 {                
 			        _current_value = argv[i];
+				    if (_tokens.back().key == EMPTY)
+                        throw cli_parsing_error("ERROR: Unexpected value: " + _current_value);
 			        _append_token();
                 }
 			}
@@ -80,8 +79,14 @@ namespace CLI
 		_valid_parameters.clear();
 	}
 
+    void CLI::_check_empty_option(const char* opt)
+    {
+        if (!(*opt)) throw cli_parsing_error("ERROR: Empty option.");
+    }
+
 	void CLI::_extract_short_opts(const char* opt)
 	{
+        _check_empty_option(opt);
 		while (*opt)
 		{
 			_current_param = *opt++;
@@ -96,6 +101,7 @@ namespace CLI
 
 	void CLI::_extract_long_opt(const char* opt)
 	{
+        _check_empty_option(opt);
 		_current_param = EMPTY;
 		_current_value = EMPTY;
 		while (*opt && *opt != '=')

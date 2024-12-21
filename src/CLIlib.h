@@ -40,6 +40,7 @@ namespace CLI
 		void _extract_long_opt(const char* opt);
 		void _append_token();
 		void _validate_current_arg() const;
+        void _check_empty_option(const char* opt);
 
 	public:
 
@@ -49,14 +50,13 @@ namespace CLI
 
 		const auto& tokens() const noexcept { return _tokens; }
 
-		void add_short_opt(const char opt);
-        void add_short_opt(const _Param& opt);
-        void add_short_opts(const _Param& opts);
-		void add_short_opts(const std::initializer_list<char>& list);
-		void add_short_opts(const std::initializer_list<_Param>& list);
+		void add_opt(const char opt);
+        void add_opts(const _Param& opts);
+		void add_opts(const std::initializer_list<char>& list);
+		void add_opts(const std::initializer_list<_Param>& list);
 
         template<typename ...Args>
-        void add_short_opts(Args&& ...args) { add_short_opts({args...}); }
+        void add_opts(Args&& ...args) { add_opts({args...}); }
 
 		void add_long_opt(const _Param& opt);
         void add_long_opts(const std::initializer_list<_Param>& list);
