@@ -8,6 +8,8 @@
 #include <string>
 #include <list>
 
+#define key first
+#define value second
 
 namespace CLI
 {
@@ -19,10 +21,13 @@ namespace CLI
 
 	private:
 
+        static constexpr auto DIVIDER = '-';
+        static constexpr auto EMPTY = "";
+
 		_Param _current_param{};
 		_Value _current_value{};
 
-		std::unordered_set<_Param> _valid_parameters{};
+		std::unordered_set<_Param> _valid_parameters{ EMPTY };
 		std::list<token> _tokens{};
 
 		CLI() = default;

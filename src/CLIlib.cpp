@@ -44,28 +44,28 @@ namespace CLI
 
 	void CLI::parse_args(int argc, char** argv)
 	{
-		// bush back first token (argv[0])
-		_tokens.emplace_back("", argv[0]);
+        _current_value = argv[0];
+        _append_token();
 
 		for (int i{ 1 }; i < argc; ++i)
 		{
-			if (argv[i][0] == '-' && argv[i][1] == '-')
+            if (argv[i][0] == DIVIDER)
 			{
-				_extract_long_opt(argv[i] + 2);
-			}
-			else if (argv[i][0] == '-' && argv[i][1])
+                if (argv[i][1] == DIVIDER)
+                    _extract_long_opt(argv[i] + 2);
+                else
+                    _extract_short_opts(argv[i] + 1);
+			} 
+            else
 			{
-				_extract_short_opts(argv[i] + 1);
+                if (_tokens.back().value == EMPTY)
+					_tokens.back().value = argv[i];
+                else 
+                {                
+			        _current_value = argv[i];
+			        _append_token();
+                }
 			}
-			else if (_tokens.back().second == "")
-			{
-					_tokens.back().second = argv[i];
-			}
-            else 
-            {                
-			    _current_value = argv[i];
-			    _append_token();
-            }
 		}
 	}
 
@@ -80,7 +80,7 @@ namespace CLI
 		while (*opt)
 		{
 			_current_param = *opt++;
-		    _current_value = "";
+		    _current_value = EMPTY;
 			while (isdigit(*opt))
 			{
 				_current_value += *opt++;
@@ -91,8 +91,8 @@ namespace CLI
 
 	void CLI::_extract_long_opt(const char* opt)
 	{
-		_current_param = "";
-		_current_value = "";
+		_current_param = EMPTY;
+		_current_value = EMPTY;
 		while (*opt && *opt != '=')
 		{
 			_current_param += *opt++;
