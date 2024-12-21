@@ -1,4 +1,5 @@
 ﻿#include "CLIlib.h"
+#include <initializer_list>
 
 namespace CLI
 {
@@ -29,6 +30,12 @@ namespace CLI
 	{
 		_valid_parameters.emplace(opt);
 	}
+
+    void CLI::add_long_opts(const std::initializer_list<_Param>& list)
+    {
+        for (const auto& opt : list)
+            add_long_opt(opt);
+    }
 
 	void CLI::parse_args(int argc, char** argv)
 	{
