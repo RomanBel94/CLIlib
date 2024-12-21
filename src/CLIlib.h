@@ -51,18 +51,18 @@ namespace CLI
 		const auto& tokens() const noexcept { return _tokens; }
 
 		void add_opt(const char opt);
-        void add_opts(const _Param& opts);
-		void add_opts(const std::initializer_list<char>& list);
-		void add_opts(const std::initializer_list<_Param>& list);
+        void add_opt(const _Param& opt);
+		void add_opt(const std::initializer_list<char>& list);
+		void add_opt(const std::initializer_list<_Param>& list);
 
         template<typename ...Args>
-        void add_opts(Args&& ...args) { add_opts({args...}); }
+        void add_opt(Args&& ...args) { add_opt({args...}); }
 
 		void add_long_opt(const _Param& opt);
-        void add_long_opts(const std::initializer_list<_Param>& list);
+        void add_long_opt(const std::initializer_list<_Param>& list);
 
         template<typename ...Args>
-        void add_long_opts(Args&&... args) { add_long_opts({args...}); }
+        void add_long_opt(Args&&... args) { add_long_opt({args...}); }
 
 		void parse_args(int argc, char** argv);
 		void clear();

@@ -13,19 +13,19 @@ namespace CLI
 		_valid_parameters.emplace(1, opt);
 	}
 
-	void CLI::add_opts(const _Param& opts)
+	void CLI::add_opt(const _Param& opts)
 	{
 		for (auto opt : opts)
 			add_opt(opt);
 	}
 
-	void CLI::add_opts(const std::initializer_list<_Param>& list)
+	void CLI::add_opt(const std::initializer_list<_Param>& list)
 	{
 		for (const auto& param : list)
-			add_opts(param);
+			add_opt(param);
 	}
 
-	void CLI::add_opts(const std::initializer_list<char>& list)
+	void CLI::add_opt(const std::initializer_list<char>& list)
 	{
 		for (auto opt : list)
 			add_opt(opt);
@@ -36,7 +36,7 @@ namespace CLI
 		_valid_parameters.emplace(opt);
 	}
 
-    void CLI::add_long_opts(const std::initializer_list<_Param>& list)
+    void CLI::add_long_opt(const std::initializer_list<_Param>& list)
     {
         for (const auto& opt : list)
             add_long_opt(opt);
