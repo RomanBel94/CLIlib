@@ -44,8 +44,7 @@ namespace CLI
 
 	void CLI::parse_args(int argc, char** argv)
 	{
-        _current_value = argv[0];
-        _tokens.emplace_back("", _current_value);
+        _tokens.emplace_back("", argv[0]);
 
 		for (int i{ 1 }; i < argc; ++i)
 		{
