@@ -12,5 +12,7 @@ project(
 # Добавьте источник в исполняемый файл этого проекта.
 add_library (CLIlib "${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.h")
 
-add_executable(test "${CMAKE_CURRENT_SOURCE_DIR}/src/test.cpp")
-target_link_libraries(test PRIVATE CLIlib)
+if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
+    add_executable(test "${CMAKE_CURRENT_SOURCE_DIR}/src/test.cpp")
+    target_link_libraries(test PRIVATE CLIlib)
+endif()
