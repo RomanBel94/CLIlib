@@ -58,23 +58,25 @@ namespace CLI
 
 		for (int i{ 1 }; i < argc; ++i)
 		{
+            // parsing parameter
             if (argv[i][0] == '-')
 			{
-                if (argv[i][1] == '-')
+                if (argv[i][1] == '-')                      // parameter is long
                     _extract_long_opt(argv[i] + 2);
-                else
+                else                                        // parameter is short
                     _extract_short_opts(argv[i] + 1);
 			} 
+            // parsing value
             else
 			{
-                if (_tokens.back().second.empty())
+                if (_tokens.back().second.empty())  // add value to existing token if it doesn't have value
                 {
                     _tokens.back().second = argv[i];
                 }
-                else 
+                else                                // add new token with same key as last and a new value
                 {                
 			        _current_value = argv[i];
-				    if (_tokens.back().first.empty())
+				    if (_tokens.back().first.empty()) // situation when value was given as first argument
                         throw cli_parsing_error("ERROR: Unexpected value: " + _current_value);
 			        _append_token();
                 }
@@ -90,7 +92,7 @@ namespace CLI
 
     void CLI::_check_empty_option(const char* opt)
     {
-        if (!(*opt)) throw cli_parsing_error("ERROR: Empty option.");
+        if (!(*opt)) throw cli_parsing_error("ERROR: Empty option");
     }
 
 	void CLI::_extract_short_opts(const char* opt)
@@ -122,15 +124,10 @@ namespace CLI
 			++opt;
 			_current_value = opt;
 		}
-        _check_long_option();
+        if (_current_param.size() == 1) // expected long option, short was given
+            throw (cli_parsing_error("ERROR: Expected long option"));
 		_append_token();
 	}
-
-    void CLI::_check_long_option() const
-    {
-        if (_current_param.size() == 1)
-            throw (cli_parsing_error("ERROR: Expected long option"));
-    }
 
 	void CLI::_append_token()
 	{
@@ -140,6 +137,7 @@ namespace CLI
 
 	void CLI::_validate_current_arg() const
 	{
+        // this token is not expected
 		if (_valid_parameters.find(_current_param) == _valid_parameters.end())
 			throw cli_parsing_error("ERROR: Invalid argument: " + _current_param);
 	}
