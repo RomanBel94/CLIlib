@@ -45,6 +45,7 @@ namespace CLI
 
 		const auto& tokens() const noexcept { return _tokens; }
         bool is_valid_token(const token& token) const noexcept;
+        bool is_valid_token(const _Param& opt) const noexcept;
 
 		void add_opt(const char opt);
         void add_opt(const _Param& opt);

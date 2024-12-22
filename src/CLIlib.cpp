@@ -44,7 +44,12 @@ namespace CLI
 
     bool CLI::is_valid_token(const token& token) const noexcept
     {
-        return _valid_parameters.find(token.first) != _valid_parameters.cend();
+        return is_valid_token(token.first);
+    }
+
+    bool CLI::is_valid_token(const _Param& opt) const noexcept
+    {
+        return _valid_parameters.find(opt) != _valid_parameters.cend();
     }
 
 	void CLI::parse_args(int argc, char** argv)
