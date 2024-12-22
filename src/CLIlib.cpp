@@ -49,7 +49,7 @@ namespace CLI
 
     bool CLI::is_valid_token(const _Param& opt) const noexcept
     {
-        return _valid_parameters.find(opt) != _valid_parameters.cend();
+        return _valid_parameters.find(opt) != _valid_parameters.cend() || opt.empty();
     }
 
 	void CLI::parse_args(int argc, char** argv)
@@ -90,7 +90,9 @@ namespace CLI
 
     void CLI::_check_empty_option(const char* opt)
     {
-        if (!(*opt)) throw cli_parsing_error("ERROR: Empty option."); }
+        if (!(*opt)) throw cli_parsing_error("ERROR: Empty option.");
+    }
+
 	void CLI::_extract_short_opts(const char* opt)
 	{
         _check_empty_option(opt);
