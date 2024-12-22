@@ -122,8 +122,15 @@ namespace CLI
 			++opt;
 			_current_value = opt;
 		}
+        _check_long_option();
 		_append_token();
 	}
+
+    void CLI::_check_long_option() const
+    {
+        if (_current_param.size() == 1)
+            throw (cli_parsing_error("ERROR: Expected long option"));
+    }
 
 	void CLI::_append_token()
 	{

@@ -33,6 +33,7 @@ namespace CLI
 
 		void _extract_short_opts(const char* opts);
 		void _extract_long_opt(const char* opt);
+        void _check_long_option() const;
 		void _append_token();
 		void _validate_current_arg() const;
         void _check_empty_option(const char* opt);
