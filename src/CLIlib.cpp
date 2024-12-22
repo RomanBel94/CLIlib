@@ -57,14 +57,14 @@ namespace CLI
 			} 
             else
 			{
-                if (_tokens.back().value.empty())
+                if (_tokens.back().second.empty())
                 {
-                    _tokens.back().value = argv[i];
+                    _tokens.back().second = argv[i];
                 }
                 else 
                 {                
 			        _current_value = argv[i];
-				    if (_tokens.back().key.empty())
+				    if (_tokens.back().first.empty())
                         throw cli_parsing_error("ERROR: Unexpected value: " + _current_value);
 			        _append_token();
                 }
@@ -80,9 +80,7 @@ namespace CLI
 
     void CLI::_check_empty_option(const char* opt)
     {
-        if (!(*opt)) throw cli_parsing_error("ERROR: Empty option.");
-    }
-
+        if (!(*opt)) throw cli_parsing_error("ERROR: Empty option."); }
 	void CLI::_extract_short_opts(const char* opt)
 	{
         _check_empty_option(opt);

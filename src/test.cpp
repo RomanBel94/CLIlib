@@ -16,8 +16,8 @@ int main(int argc, char** argv)
 
     cli->parse_args(argc, argv);
 
-	for (const auto& token : cli->tokens())
-		std::cout << token.key << " " << token.value << std::endl;
+	for (const auto& [key, value] : cli->tokens())
+		std::cout << key << " " << value << std::endl;
 
 	return 0;
 }

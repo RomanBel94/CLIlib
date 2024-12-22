@@ -8,8 +8,6 @@
 #include <string>
 #include <list>
 
-#define key first
-#define value second
 
 namespace CLI
 {
