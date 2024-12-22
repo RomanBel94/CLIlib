@@ -21,13 +21,10 @@ namespace CLI
 
 	private:
 
-        static constexpr auto DIVIDER = '-';
-        static constexpr auto EMPTY = "";
-
 		_Param _current_param{};
 		_Value _current_value{};
 
-		std::unordered_set<_Param> _valid_parameters{ EMPTY };
+		std::unordered_set<_Param> _valid_parameters{};
 		std::list<token> _tokens{};
 
 		CLI() = default;

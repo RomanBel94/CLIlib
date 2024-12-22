@@ -45,27 +45,27 @@ namespace CLI
 	void CLI::parse_args(int argc, char** argv)
 	{
         _current_value = argv[0];
-        _append_token();
+        _tokens.emplace_back("", _current_value);
 
 		for (int i{ 1 }; i < argc; ++i)
 		{
-            if (argv[i][0] == DIVIDER)
+            if (argv[i][0] == '-')
 			{
-                if (argv[i][1] == DIVIDER)
+                if (argv[i][1] == '-')
                     _extract_long_opt(argv[i] + 2);
                 else
                     _extract_short_opts(argv[i] + 1);
 			} 
             else
 			{
-                if (_tokens.back().value == EMPTY)
+                if (_tokens.back().value.empty())
                 {
                     _tokens.back().value = argv[i];
                 }
                 else 
                 {                
 			        _current_value = argv[i];
-				    if (_tokens.back().key == EMPTY)
+				    if (_tokens.back().key.empty())
                         throw cli_parsing_error("ERROR: Unexpected value: " + _current_value);
 			        _append_token();
                 }
@@ -90,7 +90,7 @@ namespace CLI
 		while (*opt)
 		{
 			_current_param = *opt++;
-		    _current_value = EMPTY;
+		    _current_value.clear();
 			while (isdigit(*opt))
 			{
 				_current_value += *opt++;
@@ -102,8 +102,8 @@ namespace CLI
 	void CLI::_extract_long_opt(const char* opt)
 	{
         _check_empty_option(opt);
-		_current_param = EMPTY;
-		_current_value = EMPTY;
+		_current_param.clear();
+		_current_value.clear();
 		while (*opt && *opt != '=')
 		{
 			_current_param += *opt++;
