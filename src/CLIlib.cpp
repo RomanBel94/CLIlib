@@ -42,6 +42,11 @@ namespace CLI
             add_long_opt(opt);
     }
 
+    bool CLI::is_valid_token(const token& token) const noexcept
+    {
+        return _valid_parameters.find(token.first) != _valid_parameters.cend();
+    }
+
 	void CLI::parse_args(int argc, char** argv)
 	{
         _tokens.emplace_back("", argv[0]);
