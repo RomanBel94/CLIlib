@@ -15,7 +15,7 @@ namespace CLI
 
 	void CLI::add_opt(const _Param& opts)
 	{
-		for (auto opt : opts)
+		for (const auto opt : opts)
 			add_opt(opt);
 	}
 
@@ -27,7 +27,7 @@ namespace CLI
 
 	void CLI::add_opt(const std::initializer_list<char>& list)
 	{
-		for (auto opt : list)
+		for (const auto opt : list)
 			add_opt(opt);
 	}
 
@@ -102,7 +102,7 @@ namespace CLI
 		    _current_value.clear();
 			while (isdigit(*opt))
 			{
-				_current_value += *opt++;
+				_current_value.push_back(*opt++);
 			}
 			_append_token();
 		}
@@ -115,7 +115,7 @@ namespace CLI
 		_current_value.clear();
 		while (*opt && *opt != '=')
 		{
-			_current_param += *opt++;
+			_current_param.push_back(*opt++);
 		}
 		if (*opt == '=')
 		{
