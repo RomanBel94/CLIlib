@@ -11,6 +11,7 @@ project(
 )
 
 add_library (CLIlib "${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.h")
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.h" DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/include/")
 
 if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
     add_executable(test "${CMAKE_CURRENT_SOURCE_DIR}/src/test.cpp")
