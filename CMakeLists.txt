@@ -11,7 +11,10 @@ project(
 )
 
 add_library (CLIlib "${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.h")
-file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include)
+endif()
 
 if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
     add_custom_command(
