@@ -9,8 +9,12 @@ project(
     LANGUAGES CXX
     DESCRIPTION "Small library for implementation command line interface."
 )
-# Добавьте источник в исполняемый файл этого проекта.
+
 add_library (CLIlib "${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.h")
+add_custom_command(
+    TARGET CLIlib POST_BUILD
+    COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.h ${CMAKE_CURRENT_SOURCE_DIR}/include/CLIlib.h
+)
 
 if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
     add_executable(test "${CMAKE_CURRENT_SOURCE_DIR}/src/test.cpp")
