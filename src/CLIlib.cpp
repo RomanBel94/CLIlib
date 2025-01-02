@@ -10,13 +10,13 @@ const std::shared_ptr<CLI>& CLI::get_instance()
 
 void CLI::add_opt(const char opt) { _valid_parameters.emplace(1, opt); }
 
-void CLI::add_opt(const _Param& opts)
+void CLI::add_opt(const char* opts)
 {
-    for (const auto opt : opts)
-        add_opt(opt);
+    while (*opts++)
+        add_opt(*opts);
 }
 
-void CLI::_add_opt(const std::initializer_list<char>& list)
+void CLI::_add_opt(const std::initializer_list<const char>& list)
 {
     for (const auto opt : list)
         add_opt(opt);

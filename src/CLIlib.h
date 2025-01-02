@@ -35,7 +35,7 @@ private:
     void _validate_current_arg() const;
     void _check_empty_option(const char* opt);
 
-    void _add_opt(const std::initializer_list<char>& list);
+    void _add_opt(const std::initializer_list<const char>& list);
     void _add_long_opt(const std::initializer_list<_Param>& list);
 
 public:
@@ -48,16 +48,18 @@ public:
     bool is_valid_token(const _Param& opt) const noexcept;
 
     void add_opt(const char opt);
-    void add_opt(const _Param& opts);
+    void add_opt(const char* opts);
 
-    template <typename... Args> void add_opt(Args&&... args)
+    template <typename... Args>
+    void add_opt(Args&&... args)
     {
         _add_opt({args...});
     }
 
     void add_long_opt(const _Param& opt);
 
-    template <typename... Args> void add_long_opt(Args&&... args)
+    template <typename... Args>
+    void add_long_opt(Args&&... args)
     {
         _add_long_opt({args...});
     }
@@ -79,4 +81,4 @@ public:
 } // namespace CLI
 
 #define CLI_LIB_H
-#endif
+#endif // CLI_LIB_H

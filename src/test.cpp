@@ -8,7 +8,6 @@ int main(int argc, char** argv)
     cli->add_opt('t');
     cli->add_opt('t', 'e', 's', 't');
     cli->add_opt("test");
-    cli->add_opt("TEST", "test");
 
     cli->add_long_opt("test", "test2");
     cli->add_long_opt("cpp");

@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 project(
     CLIlib
-    VERSION 0.9.2
+    VERSION 0.9.3
     LANGUAGES CXX
     DESCRIPTION "Small library for implementation command line interface."
 )
