@@ -34,7 +34,6 @@
 # Output directories
 build/
 out/
-include/
 
 # Visual Studio
 .vs/
