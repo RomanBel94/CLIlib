@@ -1,9 +1,9 @@
-#include <iostream>
 #include "CLIlib.h"
+#include <iostream>
 
 int main(int argc, char** argv)
 {
-	auto& cli = CLI::CLI::get_instance();
+    auto& cli = CLI::CLI::get_instance();
 
     cli->add_opt('t');
     cli->add_opt('t', 'e', 's', 't');
@@ -16,8 +16,8 @@ int main(int argc, char** argv)
 
     cli->parse_args(argc, argv);
 
-	for (const auto& [key, value] : cli->tokens())
-		std::cout << key << " " << value << std::endl;
+    for (const auto& [key, value] : cli->tokens())
+        std::cout << key << " " << value << std::endl;
 
-	return 0;
+    return 0;
 }
