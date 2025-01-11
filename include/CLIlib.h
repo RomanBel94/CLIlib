@@ -20,7 +20,7 @@ private:
     _Param _current_param{};
     _Value _current_value{};
 
-    std::unordered_set<_Param> _valid_parameters{"*"};
+    std::unordered_set<_Param> _valid_parameters{};
     std::list<token> _tokens{};
 
     CLI() = default;

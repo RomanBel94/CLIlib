@@ -127,7 +127,8 @@ void CLI::_append_token()
 void CLI::_validate_current_arg() const
 {
     // this token is not expected
-    if (!_valid_parameters.empty() && !is_valid_token(_current_param))
+    if (!_valid_parameters.empty() && !is_valid_token(_current_param) &&
+        _current_param != "*")
         throw cli_parsing_error("ERROR: Invalid argument: " + _current_param);
 }
 } // namespace CLI
