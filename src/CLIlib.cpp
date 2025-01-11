@@ -39,8 +39,7 @@ bool CLI::is_valid_token(const token& token) const noexcept
 
 bool CLI::is_valid_token(const _Param& opt) const noexcept
 {
-    return _valid_parameters.find(opt) != _valid_parameters.cend() ||
-           opt.empty();
+    return _valid_parameters.find(opt) != _valid_parameters.cend();
 }
 
 void CLI::parse_args(int argc, char** argv)
@@ -127,8 +126,7 @@ void CLI::_append_token()
 void CLI::_validate_current_arg() const
 {
     // this token is not expected
-    if (!_valid_parameters.empty() &&
-        _valid_parameters.find(_current_param) == _valid_parameters.end())
+    if (!_valid_parameters.empty() && !is_valid_token(_current_param))
         throw cli_parsing_error("ERROR: Invalid argument: " + _current_param);
 }
 } // namespace CLI
