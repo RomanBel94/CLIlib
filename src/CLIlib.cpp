@@ -43,26 +43,24 @@ bool CLI::is_valid_token(const _Param& opt) const noexcept
 
 void CLI::parse_args(int argc, char** argv)
 {
-    _tokens.emplace_back("", argv[0]);
+    _tokens.emplace_back(argv[0], argv[0]);
 
     for (int i{1}; i < argc; ++i)
     {
         // parsing parameter
         if (argv[i][0] == '-')
-        {
-            if (argv[i][1] == '-') // parameter is long
+            // parameter is long
+            if (argv[i][1] == '-')
                 _extract_long_opt(argv[i] + 2);
-            else // parameter is short
+            // parameter is short
+            else
                 _extract_short_opts(argv[i] + 1);
-        }
         // parsing value
         else
         {
             if (_tokens.back().second.empty()) // add value to existing token if
                                                // it doesn't have value
-            {
                 _tokens.back().second = argv[i];
-            }
             else // add new token with same key as last and a new value
             {
                 _current_value = argv[i];
@@ -96,9 +94,7 @@ void CLI::_extract_short_opts(const char* opt)
         _current_param = *opt++;
         _current_value.clear();
         while (isdigit(*opt))
-        {
             _current_value.push_back(*opt++);
-        }
         _append_token();
     }
 }
@@ -109,9 +105,7 @@ void CLI::_extract_long_opt(const char* opt)
     _current_param.clear();
     _current_value.clear();
     while (*opt && *opt != '=')
-    {
         _current_param.push_back(*opt++);
-    }
     if (*opt == '=')
     {
         ++opt;
@@ -131,7 +125,8 @@ void CLI::_append_token()
 void CLI::_validate_current_arg() const
 {
     // this token is not expected
-    if (_valid_parameters.find(_current_param) == _valid_parameters.end())
+    if (!_valid_parameters.empty() &&
+        _valid_parameters.find(_current_param) == _valid_parameters.end())
         throw cli_parsing_error("ERROR: Invalid argument: " + _current_param);
 }
 } // namespace CLI
