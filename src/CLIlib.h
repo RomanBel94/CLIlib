@@ -49,6 +49,7 @@ public:
 
     void add_opt(const char opt);
     void add_opt(const char* opts);
+    void add_opt(const _Param& opts);
 
     template <typename... Args>
     void add_opt(Args&&... args)

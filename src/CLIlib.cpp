@@ -16,6 +16,8 @@ void CLI::add_opt(const char* opts)
         add_opt(*opts);
 }
 
+void CLI::add_opt(const _Param& opts) { add_opt(opts.c_str()); }
+
 void CLI::_add_opt(const std::initializer_list<const char>& list)
 {
     for (const auto opt : list)
