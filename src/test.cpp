@@ -9,13 +9,26 @@ int main(int argc, char** argv)
     auto cli = CLI::CLI::get_instance();
 
     // test #1
-    int args_c = 6;
-    const char* args_v[] = {"", "-t12", "-e12s", "43", "param", "-r"};
-    cli->parse_args(args_c, const_cast<char**>(args_v));
-    std::list<CLI::CLI::token> answer{
+    int argc1 = 1;
+    const char* argv1[] = {""};
+    cli->parse_args(argc1, const_cast<char**>(argv1));
+    std::list<CLI::CLI::token> answer1;
+
+    if (cli->tokens() == answer1)
+        std::cout << "Test #" << ++current_test << " passed!" << std::endl;
+    else
+        std::cout << "Test #" << ++current_test << " failed!" << std::endl;
+
+    cli->clear();
+
+    // test #2
+    int argc2 = 6;
+    const char* argv2[] = {"", "-t12", "-e12s", "43", "param", "-r"};
+    cli->parse_args(argc2, const_cast<char**>(argv2));
+    std::list<CLI::CLI::token> answer2{
         {"t", "12"}, {"e", "12"}, {"s", "43"}, {"s", "param"}, {"r", ""}};
 
-    if (cli->tokens() == answer)
+    if (cli->tokens() == answer2)
         std::cout << "Test #" << ++current_test << " passed!" << std::endl;
     else
         std::cout << "Test #" << ++current_test << " failed!" << std::endl;
