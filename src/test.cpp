@@ -20,6 +20,8 @@ int main(int argc, char** argv)
     else
         std::cout << "Test #" << ++current_test << " failed!" << std::endl;
 
+    cli->clear();
+
     // for (const auto& [key, value] : cli->tokens())
     //     std::cout << key << " " << value << std::endl;
 
