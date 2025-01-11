@@ -12,6 +12,7 @@ namespace CLI
 {
 class CLI
 {
+public:
     using _Param = std::string;
     using _Value = std::string;
     using token = std::pair<_Param, _Value>;

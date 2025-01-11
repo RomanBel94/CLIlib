@@ -38,3 +38,6 @@ out/
 # Visual Studio
 .vs/
 CMakePresets.json
+
+# Vim
+*.swp
