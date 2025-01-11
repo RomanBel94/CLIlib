@@ -71,6 +71,8 @@ void CLI::parse_args(int argc, char** argv)
 
 void CLI::clear()
 {
+    _current_param.clear();
+    _current_value.clear();
     _tokens.clear();
     _valid_parameters.clear();
 }
