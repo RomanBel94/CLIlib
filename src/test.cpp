@@ -59,6 +59,30 @@ int main(int argc, char** argv)
 
     cli->clear();
 
+    // test #3
+    int argc3 = 3;
+    const char* argv3[] = {"", "param1", "param2"};
+    cli->parse_args(argc3, const_cast<char**>(argv3));
+    std::list<CLI::CLI::token> answer3{{"", "param1"}, {"", "param2"}};
+
+    if (cli->tokens() == answer3)
+        std::cout << "Test #" << ++current_test << " passed!" << std::endl;
+    else
+    {
+        std::cout << "Test #" << ++current_test << " failed!" << std::endl;
+        std::cout << "Given args:\n";
+        for (int i{1}; i < argc3; ++i)
+            std::cout << argv3[i] << '\n';
+        std::cout << "Expected:\n";
+        for (auto [opt, value] : answer3)
+            std::cout << opt << ' ' << value << '\n';
+        std::cout << "Collected:\n";
+        for (auto [opt, value] : cli->tokens())
+            std::cout << opt << ' ' << value << '\n';
+        std::cout << std::endl;
+    }
+
+    cli->clear();
     // for (const auto& [key, value] : cli->tokens())
     //     std::cout << key << " " << value << std::endl;
 
