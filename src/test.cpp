@@ -108,6 +108,55 @@ int main(int argc, char** argv)
     }
 
     cli->clear();
+
+    // test #5
+    int argc5 = 3;
+    const char* argv5[] = {"", "param1", "--"};
+    exception_catched = false;
+    cli->add_long_opt("param1", "param3");
+    try
+    {
+        cli->parse_args(argc5, const_cast<char**>(argv5));
+    }
+    catch (const CLI::cli_parsing_error& ex)
+    {
+        exception_catched = true;
+    }
+
+    if (exception_catched)
+        std::cout << "Test #" << ++current_test << " passed!" << std::endl;
+    else
+    {
+        std::cout << "Test #" << ++current_test << " failed!" << std::endl;
+        std::cout << "No exception catched" << std::endl;
+        std::cout << std::endl;
+    }
+
+    cli->clear();
+
+    // test #6
+    int argc6 = 2;
+    const char* argv6[] = {"", "-"};
+    exception_catched = false;
+    try
+    {
+        cli->parse_args(argc6, const_cast<char**>(argv6));
+    }
+    catch (const CLI::cli_parsing_error& ex)
+    {
+        exception_catched = true;
+    }
+
+    if (exception_catched)
+        std::cout << "Test #" << ++current_test << " passed!" << std::endl;
+    else
+    {
+        std::cout << "Test #" << ++current_test << " failed!" << std::endl;
+        std::cout << "No exception catched" << std::endl;
+        std::cout << std::endl;
+    }
+
+    cli->clear();
     // for (const auto& [key, value] : cli->tokens())
     //     std::cout << key << " " << value << std::endl;
 
