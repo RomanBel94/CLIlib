@@ -17,7 +17,19 @@ int main(int argc, char** argv)
     if (cli->tokens() == answer1)
         std::cout << "Test #" << ++current_test << " passed!" << std::endl;
     else
+    {
         std::cout << "Test #" << ++current_test << " failed!" << std::endl;
+        std::cout << "Given args:\n";
+        for (int i{1}; i < argc1; ++i)
+            std::cout << argv1[i] << '\n';
+        std::cout << "Expected:\n";
+        for (auto [opt, value] : answer1)
+            std::cout << opt << ' ' << value << '\n';
+        std::cout << "Collected:\n";
+        for (auto [opt, value] : cli->tokens())
+            std::cout << opt << ' ' << value << '\n';
+        std::cout << std::endl;
+    }
 
     cli->clear();
 
@@ -31,7 +43,19 @@ int main(int argc, char** argv)
     if (cli->tokens() == answer2)
         std::cout << "Test #" << ++current_test << " passed!" << std::endl;
     else
+    {
         std::cout << "Test #" << ++current_test << " failed!" << std::endl;
+        std::cout << "Given args:\n";
+        for (int i{1}; i < argc2; ++i)
+            std::cout << argv2[i] << '\n';
+        std::cout << "Expected:\n";
+        for (auto [opt, value] : answer2)
+            std::cout << opt << ' ' << value << '\n';
+        std::cout << "Collected:\n";
+        for (auto [opt, value] : cli->tokens())
+            std::cout << opt << ' ' << value << '\n';
+        std::cout << std::endl;
+    }
 
     cli->clear();
 
