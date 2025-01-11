@@ -20,7 +20,7 @@ private:
     _Param _current_param{};
     _Value _current_value{};
 
-    std::unordered_set<_Param> _valid_parameters{};
+    std::unordered_set<_Param> _valid_parameters{"*"};
     std::list<token> _tokens{};
 
     CLI() = default;
@@ -43,9 +43,9 @@ public:
 
     ~CLI() = default;
 
-    const auto& tokens() const noexcept { return _tokens; }
-    bool is_valid_token(const token& token) const noexcept;
-    bool is_valid_token(const _Param& opt) const noexcept;
+    inline const auto& tokens() const noexcept { return _tokens; }
+    inline bool is_valid_token(const token& token) const noexcept;
+    inline bool is_valid_token(const _Param& opt) const noexcept;
 
     void add_opt(const char opt);
     void add_opt(const char* opts);

@@ -39,12 +39,12 @@ bool CLI::is_valid_token(const token& token) const noexcept
 
 bool CLI::is_valid_token(const _Param& opt) const noexcept
 {
-    return _valid_parameters.find(opt) != _valid_parameters.cend();
+    return _valid_parameters.find(opt) != _valid_parameters.end();
 }
 
 void CLI::parse_args(int argc, char** argv)
 {
-    _tokens.emplace_back(argv[0], argv[0]);
+    _tokens.emplace_back("*", argv[0]);
 
     for (int i{1}; i < argc; ++i)
     {
@@ -62,13 +62,10 @@ void CLI::parse_args(int argc, char** argv)
             if (_tokens.back().second.empty()) // add value to existing token if
                                                // it doesn't have value
                 _tokens.back().second = argv[i];
-            else // add new token with same key as last and a new value
+            else // add new token with the same key as last and a new value
             {
+                _current_param = '*';
                 _current_value = argv[i];
-                if (_tokens.back().first.empty()) // situation when value was
-                                                  // given as first argument
-                    throw cli_parsing_error("ERROR: Unexpected value: " +
-                                            _current_value);
                 _append_token();
             }
         }
@@ -94,6 +91,8 @@ void CLI::_extract_short_opts(const char* opt)
     {
         _current_param = *opt++;
         _current_value.clear();
+
+        // for token which looks like -p777
         while (isdigit(*opt))
             _current_value.push_back(*opt++);
         _append_token();
@@ -105,6 +104,8 @@ void CLI::_extract_long_opt(const char* opt)
     _check_empty_option(opt);
     _current_param.clear();
     _current_value.clear();
+
+    // for token which looks like --param=value
     while (*opt && *opt != '=')
         _current_param.push_back(*opt++);
     if (*opt == '=')

@@ -12,7 +12,7 @@ endif()
 
 project(
     CLIlib
-    VERSION 0.9.4.2
+    VERSION 0.9.4.4
     LANGUAGES CXX
     DESCRIPTION "Small library for implementation command line interface."
 )
