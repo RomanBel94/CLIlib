@@ -32,4 +32,8 @@ if(CLI_MASTER_PROJECT)
     )
     add_executable(test "${CMAKE_CURRENT_SOURCE_DIR}/src/test.cpp")
     target_link_libraries(test PRIVATE CLIlib)
+    add_custom_command(
+        TARGET test POST_BUILD
+        COMMAND ${CMAKE_BINARY_DIR}/test
+    )
 endif()
