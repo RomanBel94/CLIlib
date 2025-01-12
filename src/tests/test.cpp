@@ -19,8 +19,8 @@ TEST(CLI_EmptyArgvNoValidation, NoArgumentsGiven)
     clear_all();
     const char* args_pack1[] = {""};
 
-    // Act
-    cli->parse_args(1, const_cast<char**>(args_pack1));
+    // Act (empty for this test)
+    ASSERT_NO_THROW(cli->parse_args(1, const_cast<char**>(args_pack1)));
 
     // Assert
     EXPECT_EQ(cli->tokens(), expected_token_list);
@@ -34,7 +34,7 @@ TEST(CLI_ShortKeysNoValidation, SingleShortKeyLowerCase)
     expected_token_list.emplace_back("t", "");
 
     // Act
-    cli->parse_args(2, const_cast<char**>(args_pack2));
+    ASSERT_NO_THROW(cli->parse_args(2, const_cast<char**>(args_pack2)));
 
     // Assert
     EXPECT_EQ(cli->tokens(), expected_token_list);
@@ -48,7 +48,7 @@ TEST(CLI_ShortKeysNoValidation, SingleShortKeyUpperCase)
     expected_token_list.emplace_back("H", "");
 
     // Act
-    cli->parse_args(2, const_cast<char**>(args_pack3));
+    ASSERT_NO_THROW(cli->parse_args(2, const_cast<char**>(args_pack3)));
 
     // Assert
     EXPECT_EQ(cli->tokens(), expected_token_list);
