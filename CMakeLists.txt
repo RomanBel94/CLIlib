@@ -37,7 +37,7 @@ if(CLI_MASTER_PROJECT)
         COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.h ${CMAKE_CURRENT_SOURCE_DIR}/include/CLIlib.h
     )
     add_executable(run_tests "${CMAKE_CURRENT_SOURCE_DIR}/src/tests/test.cpp")
-    target_link_libraries(run_tests PRIVATE CLIlib gtest)
+    target_link_libraries(run_tests PRIVATE CLIlib gtest gtest_main)
 
     # after building tests, they will start automatically
     add_custom_command(
