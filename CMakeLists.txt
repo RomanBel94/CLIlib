@@ -11,6 +11,8 @@ if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
 
     # add googletest directory
     enable_testing()
+    set(BUILD_GMOCK OFF)
+    message(STATUS "Tests will be built and run automatically")
     add_subdirectory(${CMAKE_SOURCE_DIR}/googletest)
 endif()
 
