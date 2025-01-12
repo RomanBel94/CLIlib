@@ -26,7 +26,7 @@ TEST(CLI_EmptyArgv, NoArgumentsGiven)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_ShortKeysNoValidation, SingleShortKey)
+TEST(CLI_ShortKeysNoValidation, SingleShortKeyLowerCase)
 {
     // Arrange
     clear_all();
@@ -38,8 +38,10 @@ TEST(CLI_ShortKeysNoValidation, SingleShortKey)
 
     // Assert
     EXPECT_EQ(cli->tokens(), expected_token_list);
-    /*-------------------------------------------------------------------------*/
+}
 
+TEST(CLI_ShortKeysNoValidation, SingleShortKeyUpperCase)
+{
     // Arrange
     clear_all();
     const char* args_pack3[] = {"", "-H"};
