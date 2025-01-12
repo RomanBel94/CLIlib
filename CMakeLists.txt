@@ -10,6 +10,7 @@ if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
     message(STATUS "CLIlib build type is: ${CMAKE_BUILD_TYPE}")
 
     # add googletest directory
+    enable_testing()
     add_subdirectory(${CMAKE_SOURCE_DIR}/googletest)
 endif()
 
