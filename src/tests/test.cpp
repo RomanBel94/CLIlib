@@ -44,8 +44,8 @@ TEST(CLI_EmptyArgvNoValidation, EmptyShortKeyGivenWithNoEmptyBefore)
 {
     // Arrange
     clear_all();
-    expected_token_list = {{"k", ""}};
     const char* args_pack[] = {"", "-k", "-"};
+    expected_token_list = {{"k", ""}};
 
     // Act (empty for this test)
     EXPECT_THROW(cli->parse_args(3, const_cast<char**>(args_pack)),
@@ -87,8 +87,8 @@ TEST(CLI_EmptyArgvNoValidation, EmptyLongOptionGivenWithNoEmptyBefore)
 {
     // Arrange
     clear_all();
-    expected_token_list = {{"param", ""}};
     const char* args_pack[] = {"", "--param", "--"};
+    expected_token_list = {{"param", ""}};
 
     // Act (empty for this test)
     EXPECT_THROW(cli->parse_args(3, const_cast<char**>(args_pack)),
@@ -117,7 +117,7 @@ TEST(CLI_ShortKeysNoValidation, SingleShortKeyLowerCase)
     // Arrange
     clear_all();
     const char* args_pack[] = {"", "-t"};
-    expected_token_list.emplace_back("t", "");
+    expected_token_list = {{"t", ""}};
 
     // Act
     ASSERT_NO_THROW(cli->parse_args(2, const_cast<char**>(args_pack)));
@@ -131,7 +131,7 @@ TEST(CLI_ShortKeysNoValidation, SingleShortKeyUpperCase)
     // Arrange
     clear_all();
     const char* args_pack[] = {"", "-H"};
-    expected_token_list.emplace_back("H", "");
+    expected_token_list = {{"H", ""}};
 
     // Act
     ASSERT_NO_THROW(cli->parse_args(2, const_cast<char**>(args_pack)));
