@@ -11,25 +11,44 @@ TEST(CLI_EmptyArgv, NoArgumentsGiven)
 {
     // Arrange
     const char* args_pack1[] = {""};
+
     // Act
     cli->parse_args(1, const_cast<char**>(args_pack1));
+
     // Assert
     EXPECT_EQ(cli->tokens(), expected_token_list);
-    // clearing test case
+
+    // Clear
     cli->clear();
-    expected_token_list.clear();
 }
 
-TEST(CLI_ShortKeys, SingleShortKey)
+TEST(CLI_ShortKeysNoValidation, SingleShortKey)
 {
     // Arrange
     const char* args_pack2[] = {"", "-t"};
     expected_token_list.emplace_back("t", "");
+
     // Act
     cli->parse_args(2, const_cast<char**>(args_pack2));
+
     // Assert
     EXPECT_EQ(cli->tokens(), expected_token_list);
-    // clearing test case
+
+    /*-------------------------------------------------------------------------*/
+
+    // Arrange
+    cli->clear();
+    expected_token_list.clear();
+    const char* args_pack3[] = {"", "-H"};
+    expected_token_list.emplace_back("H", "");
+
+    // Act
+    cli->parse_args(2, const_cast<char**>(args_pack3));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+
+    // Clear
     cli->clear();
     expected_token_list.clear();
 }
