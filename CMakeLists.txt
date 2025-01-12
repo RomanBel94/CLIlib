@@ -34,7 +34,7 @@ if(CLI_MASTER_PROJECT)
         TARGET CLIlib POST_BUILD
         COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.h ${CMAKE_CURRENT_SOURCE_DIR}/include/CLIlib.h
     )
-    add_executable(run_tests "${CMAKE_CURRENT_SOURCE_DIR}/src/test.cpp")
+    add_executable(run_tests "${CMAKE_CURRENT_SOURCE_DIR}/src/tests/test.cpp")
     target_link_libraries(run_tests PRIVATE CLIlib gtest)
 
     # after building tests, they will start automatically

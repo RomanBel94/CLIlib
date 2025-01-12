@@ -1,8 +1,8 @@
-#include "CLIlib.h"
+#include "../CLIlib.h"
 #include <list>
 
 // has to be included after all other includes
-#include "../googletest/googletest/include/gtest/gtest.h"
+#include "../../googletest/googletest/include/gtest/gtest.h"
 
 auto cli = CLI::CLI::get_instance();
 std::list<CLI::CLI::token> expected_token_list;
