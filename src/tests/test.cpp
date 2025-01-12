@@ -13,7 +13,7 @@ void clear_all()
     cli->clear();
 }
 
-TEST(CLI_EmptyArgv, NoArgumentsGiven)
+TEST(CLI_EmptyArgvNoValidation, NoArgumentsGiven)
 {
     // Arrange
     clear_all();
