@@ -7,9 +7,16 @@
 auto cli = CLI::CLI::get_instance();
 std::list<CLI::CLI::token> expected_token_list;
 
+void clear_all()
+{
+    expected_token_list.clear();
+    cli->clear();
+}
+
 TEST(CLI_EmptyArgv, NoArgumentsGiven)
 {
     // Arrange
+    clear_all();
     const char* args_pack1[] = {""};
 
     // Act
@@ -17,14 +24,12 @@ TEST(CLI_EmptyArgv, NoArgumentsGiven)
 
     // Assert
     EXPECT_EQ(cli->tokens(), expected_token_list);
-
-    // Clear
-    cli->clear();
 }
 
 TEST(CLI_ShortKeysNoValidation, SingleShortKey)
 {
     // Arrange
+    clear_all();
     const char* args_pack2[] = {"", "-t"};
     expected_token_list.emplace_back("t", "");
 
@@ -33,12 +38,10 @@ TEST(CLI_ShortKeysNoValidation, SingleShortKey)
 
     // Assert
     EXPECT_EQ(cli->tokens(), expected_token_list);
-
     /*-------------------------------------------------------------------------*/
 
     // Arrange
-    cli->clear();
-    expected_token_list.clear();
+    clear_all();
     const char* args_pack3[] = {"", "-H"};
     expected_token_list.emplace_back("H", "");
 
@@ -47,10 +50,6 @@ TEST(CLI_ShortKeysNoValidation, SingleShortKey)
 
     // Assert
     EXPECT_EQ(cli->tokens(), expected_token_list);
-
-    // Clear
-    cli->clear();
-    expected_token_list.clear();
 }
 
 int main(int argc, char** argv)
