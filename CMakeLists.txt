@@ -8,6 +8,9 @@ if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
     set(CLI_MASTER_PROJECT ON)
     message(STATUS "CLIlib will be built as master project")
     message(STATUS "CLIlib build type is: ${CMAKE_BUILD_TYPE}")
+
+    # add googletest directory
+    add_subdirectory(${CMAKE_SOURCE_DIR}/googletest)
 endif()
 
 
@@ -25,14 +28,15 @@ if(CLI_MASTER_PROJECT)
     if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/include)
         file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include)
     endif()
-    # after building library header file will be copied into include directory
+    # after building library, header file will be copied into include directory
     add_custom_command(
         TARGET CLIlib POST_BUILD
         COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.h ${CMAKE_CURRENT_SOURCE_DIR}/include/CLIlib.h
     )
     add_executable(run_tests "${CMAKE_CURRENT_SOURCE_DIR}/src/test.cpp")
-    target_link_libraries(run_tests PRIVATE CLIlib)
-    # after building tests will start automatically
+    target_link_libraries(run_tests PRIVATE CLIlib gtest)
+
+    # after building tests, they will start automatically
     add_custom_command(
         TARGET run_tests POST_BUILD
         COMMAND ${CMAKE_BINARY_DIR}/run_tests
