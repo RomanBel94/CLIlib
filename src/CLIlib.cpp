@@ -127,6 +127,6 @@ void CLI::_validate_current_arg() const
 {
     // this token is not expected
     if (!_valid_parameters.empty() && !is_valid_token(_current_param))
-        throw cli_parsing_error("ERROR: Empty option");
+        throw cli_parsing_error("ERROR: Invalid  option");
 }
 } // namespace CLI
