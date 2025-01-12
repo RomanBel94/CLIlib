@@ -20,7 +20,35 @@ TEST(CLI_EmptyArgvNoValidation, NoArgumentsGiven)
     const char* args_pack1[] = {""};
 
     // Act (empty for this test)
-    ASSERT_NO_THROW(cli->parse_args(1, const_cast<char**>(args_pack1)));
+    EXPECT_NO_THROW(cli->parse_args(1, const_cast<char**>(args_pack1)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(CLI_EmptyArgvNoValidation, EmptyShortKeyGiven)
+{
+    // Arrange
+    clear_all();
+    const char* args_pack2[] = {"", "-"};
+
+    // Act (empty for this test)
+    EXPECT_THROW(cli->parse_args(2, const_cast<char**>(args_pack2)),
+                 CLI::cli_parsing_error);
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(CLI_EmptyArgvNoValidation, EmptyLongOptionGiven)
+{
+    // Arrange
+    clear_all();
+    const char* args_pack3[] = {"", "--"};
+
+    // Act (empty for this test)
+    EXPECT_THROW(cli->parse_args(2, const_cast<char**>(args_pack3)),
+                 CLI::cli_parsing_error);
 
     // Assert
     EXPECT_EQ(cli->tokens(), expected_token_list);
@@ -30,11 +58,11 @@ TEST(CLI_ShortKeysNoValidation, SingleShortKeyLowerCase)
 {
     // Arrange
     clear_all();
-    const char* args_pack2[] = {"", "-t"};
+    const char* args_pack1[] = {"", "-t"};
     expected_token_list.emplace_back("t", "");
 
     // Act
-    ASSERT_NO_THROW(cli->parse_args(2, const_cast<char**>(args_pack2)));
+    ASSERT_NO_THROW(cli->parse_args(2, const_cast<char**>(args_pack1)));
 
     // Assert
     EXPECT_EQ(cli->tokens(), expected_token_list);
@@ -44,11 +72,11 @@ TEST(CLI_ShortKeysNoValidation, SingleShortKeyUpperCase)
 {
     // Arrange
     clear_all();
-    const char* args_pack3[] = {"", "-H"};
+    const char* args_pack2[] = {"", "-H"};
     expected_token_list.emplace_back("H", "");
 
     // Act
-    ASSERT_NO_THROW(cli->parse_args(2, const_cast<char**>(args_pack3)));
+    ASSERT_NO_THROW(cli->parse_args(2, const_cast<char**>(args_pack2)));
 
     // Assert
     EXPECT_EQ(cli->tokens(), expected_token_list);
