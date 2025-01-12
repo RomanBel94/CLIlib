@@ -19,7 +19,7 @@ TEST(CLI_EmptyArgvNoValidation, NoArgumentsGiven)
     clear_all();
     const char* args_pack[] = {""};
 
-    // Act (empty for this test)
+    // Act
     EXPECT_NO_THROW(cli->parse_args(1, const_cast<char**>(args_pack)));
 
     // Assert
@@ -32,7 +32,7 @@ TEST(CLI_EmptyArgvNoValidation, EmptyShortKeyGiven)
     clear_all();
     const char* args_pack[] = {"", "-"};
 
-    // Act (empty for this test)
+    // Act
     EXPECT_THROW(cli->parse_args(2, const_cast<char**>(args_pack)),
                  CLI::cli_parsing_error);
 
@@ -47,7 +47,7 @@ TEST(CLI_EmptyArgvNoValidation, EmptyShortKeyGivenWithNoEmptyBefore)
     const char* args_pack[] = {"", "-k", "-"};
     expected_token_list = {{"k", ""}};
 
-    // Act (empty for this test)
+    // Act
     EXPECT_THROW(cli->parse_args(3, const_cast<char**>(args_pack)),
                  CLI::cli_parsing_error);
 
@@ -61,7 +61,7 @@ TEST(CLI_EmptyArgvNoValidation, EmptyShortKeyGivenWithNoEmptyAfter)
     clear_all();
     const char* args_pack[] = {"", "-", "-e"};
 
-    // Act (empty for this test)
+    // Act
     EXPECT_THROW(cli->parse_args(3, const_cast<char**>(args_pack)),
                  CLI::cli_parsing_error);
 
@@ -75,7 +75,7 @@ TEST(CLI_EmptyArgvNoValidation, EmptyLongOptionGiven)
     clear_all();
     const char* args_pack[] = {"", "--"};
 
-    // Act (empty for this test)
+    // Act
     EXPECT_THROW(cli->parse_args(2, const_cast<char**>(args_pack)),
                  CLI::cli_parsing_error);
 
@@ -90,7 +90,7 @@ TEST(CLI_EmptyArgvNoValidation, EmptyLongOptionGivenWithNoEmptyBefore)
     const char* args_pack[] = {"", "--param", "--"};
     expected_token_list = {{"param", ""}};
 
-    // Act (empty for this test)
+    // Act
     EXPECT_THROW(cli->parse_args(3, const_cast<char**>(args_pack)),
                  CLI::cli_parsing_error);
 
@@ -104,7 +104,7 @@ TEST(CLI_EmptyArgvNoValidation, EmptyLongOptionGivenWithNoEmptyAfter)
     clear_all();
     const char* args_pack[] = {"", "--", "--param"};
 
-    // Act (empty for this test)
+    // Act
     EXPECT_THROW(cli->parse_args(3, const_cast<char**>(args_pack)),
                  CLI::cli_parsing_error);
 
