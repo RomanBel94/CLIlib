@@ -1,5 +1,4 @@
 #include "../CLIlib.h"
-#include <list>
 
 // has to be included after all other includes
 #include "../../googletest/googletest/include/gtest/gtest.h"
@@ -168,12 +167,12 @@ TEST(CLI_ShortKeysNoValidation, SingleShortKeyWithFarNumberValue)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_ShortKeysNoValidation, SingleShortKeyWithFarSomeNumberValues)
+TEST(CLI_ShortKeysNoValidation, SingleShortKeyWithNearSomeNumberValues)
 {
     // Arrange
     clear_all();
-    const char* args_pack[] = {"", "-k", "12", "34", "52"};
-    expected_token_list = {{"k", "12"}, {"k", "34"}, {"k", "52"}};
+    const char* args_pack[] = {"", "-k89", "12", "34", "52"};
+    expected_token_list = {{"k", "89"}, {"k", "12"}, {"k", "34"}, {"k", "52"}};
 
     // Act
     ASSERT_NO_THROW(cli->parse_args(5, const_cast<char**>(args_pack)));
@@ -182,12 +181,12 @@ TEST(CLI_ShortKeysNoValidation, SingleShortKeyWithFarSomeNumberValues)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_ShortKeysNoValidation, SingleShortKeyWithNearSomeNumberValues)
+TEST(CLI_ShortKeysNoValidation, SingleShortKeyWithFarSomeNumberValues)
 {
     // Arrange
     clear_all();
-    const char* args_pack[] = {"", "-k89", "12", "34", "52"};
-    expected_token_list = {{"k", "89"}, {"k", "12"}, {"k", "34"}, {"k", "52"}};
+    const char* args_pack[] = {"", "-k", "12", "34", "52"};
+    expected_token_list = {{"k", "12"}, {"k", "34"}, {"k", "52"}};
 
     // Act
     ASSERT_NO_THROW(cli->parse_args(5, const_cast<char**>(args_pack)));
