@@ -13,7 +13,7 @@ void clear_all()
     cli->clear();
 }
 
-TEST(CLI_EmptyArgvNoValidation, NoArgumentsGiven)
+TEST(CLI_EmptyOptionsNoValidation, NoArgumentsGiven)
 {
     // Arrange
     clear_all();
@@ -26,7 +26,7 @@ TEST(CLI_EmptyArgvNoValidation, NoArgumentsGiven)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_EmptyArgvNoValidation, EmptyShortKeyGiven)
+TEST(CLI_EmptyOptionsNoValidation, EmptyShortKeyGiven)
 {
     // Arrange
     clear_all();
@@ -40,7 +40,7 @@ TEST(CLI_EmptyArgvNoValidation, EmptyShortKeyGiven)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_EmptyArgvNoValidation, EmptyShortKeyGivenWithNoEmptyBefore)
+TEST(CLI_EmptyOptionsNoValidation, EmptyShortKeyGivenWithNoEmptyBefore)
 {
     // Arrange
     clear_all();
@@ -55,7 +55,7 @@ TEST(CLI_EmptyArgvNoValidation, EmptyShortKeyGivenWithNoEmptyBefore)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_EmptyArgvNoValidation, EmptyShortKeyGivenWithNoEmptyAfter)
+TEST(CLI_EmptyOptionsNoValidation, EmptyShortKeyGivenWithNoEmptyAfter)
 {
     // Arrange
     clear_all();
@@ -69,7 +69,7 @@ TEST(CLI_EmptyArgvNoValidation, EmptyShortKeyGivenWithNoEmptyAfter)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_EmptyArgvNoValidation, EmptyLongOptionGiven)
+TEST(CLI_EmptyOptionsNoValidation, EmptyLongOptionGiven)
 {
     // Arrange
     clear_all();
@@ -83,7 +83,7 @@ TEST(CLI_EmptyArgvNoValidation, EmptyLongOptionGiven)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_EmptyArgvNoValidation, EmptyLongOptionGivenWithNoEmptyBefore)
+TEST(CLI_EmptyOptionsNoValidation, EmptyLongOptionGivenWithNoEmptyBefore)
 {
     // Arrange
     clear_all();
@@ -98,7 +98,7 @@ TEST(CLI_EmptyArgvNoValidation, EmptyLongOptionGivenWithNoEmptyBefore)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_EmptyArgvNoValidation, EmptyLongOptionGivenWithNoEmptyAfter)
+TEST(CLI_EmptyOptionsNoValidation, EmptyLongOptionGivenWithNoEmptyAfter)
 {
     // Arrange
     clear_all();
@@ -135,6 +135,62 @@ TEST(CLI_ShortKeysNoValidation, SingleShortKeyUpperCase)
 
     // Act
     ASSERT_NO_THROW(cli->parse_args(2, const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(CLI_ShortKeysNoValidation, SingleShortKeyWithNearNumberValue)
+{
+    // Arrange
+    clear_all();
+    const char* args_pack[] = {"", "-t23"};
+    expected_token_list = {{"t", "23"}};
+
+    // Act
+    ASSERT_NO_THROW(cli->parse_args(2, const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(CLI_ShortKeysNoValidation, SingleShortKeyWithFarNumberValue)
+{
+    // Arrange
+    clear_all();
+    const char* args_pack[] = {"", "-B", "98"};
+    expected_token_list = {{"B", "98"}};
+
+    // Act
+    ASSERT_NO_THROW(cli->parse_args(3, const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(CLI_ShortKeysNoValidation, SingleShortKeyWithFarSomeNumberValues)
+{
+    // Arrange
+    clear_all();
+    const char* args_pack[] = {"", "-k", "12", "34", "52"};
+    expected_token_list = {{"k", "12"}, {"k", "34"}, {"k", "52"}};
+
+    // Act
+    ASSERT_NO_THROW(cli->parse_args(5, const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(CLI_ShortKeysNoValidation, SingleShortKeyWithNearSomeNumberValues)
+{
+    // Arrange
+    clear_all();
+    const char* args_pack[] = {"", "-k89", "12", "34", "52"};
+    expected_token_list = {{"k", "89"}, {"k", "12"}, {"k", "34"}, {"k", "52"}};
+
+    // Act
+    ASSERT_NO_THROW(cli->parse_args(5, const_cast<char**>(args_pack)));
 
     // Assert
     EXPECT_EQ(cli->tokens(), expected_token_list);
