@@ -17,34 +17,8 @@ public:
     using _Value = std::string;
     using token = std::pair<_Param, _Value>;
 
-private:
-    _Param _current_param{};
-    _Value _current_value{};
-
-    std::unordered_set<_Param> _valid_parameters{};
-    std::list<token> _tokens{};
-
-    CLI() = default;
-    CLI(const CLI&) = delete;
-    CLI(CLI&&) = delete;
-    CLI& operator=(const CLI&) = delete;
-    CLI& operator=(CLI&&) = delete;
-
-    void _extract_short_opts(const char* opts);
-    void _extract_long_opt(const char* opt);
-    void _append_token();
-    void _validate_current_arg() const;
-    void _check_empty_option(const char* opt);
-    inline bool _is_valid_token(const _Param& opt) const noexcept;
-
-    void _add_opt(const std::initializer_list<const char>& list);
-    void _add_opt(const std::initializer_list<_Param>& list);
-    void _add_long_opt(const std::initializer_list<_Param>& list);
-
-public:
     static const std::shared_ptr<CLI>& get_instance();
-
-    ~CLI() = default;
+    void parse_args(int argc, char** argv);
 
     inline const auto& tokens() const noexcept { return _tokens; }
 
@@ -60,8 +34,34 @@ public:
         _add_long_opt({args...});
     }
 
-    void parse_args(int argc, char** argv);
     void clear();
+
+    ~CLI() = default;
+
+private:
+    _Param _current_param{};
+    _Value _current_value{};
+
+    std::unordered_set<_Param> _valid_parameters{};
+    std::list<token> _tokens{};
+
+    CLI() = default;
+    CLI(const CLI&) = delete;
+    CLI(CLI&&) = delete;
+    CLI& operator=(const CLI&) = delete;
+    CLI& operator=(CLI&&) = delete;
+
+    void _extract_short_opt(const char* opts);
+    void _extract_long_opt(const char* opt);
+    void _append_token();
+    void _validate_current_arg() const;
+    void _check_empty_option(const char* opt);
+    inline bool _is_valid_token(const _Param& opt) const noexcept;
+
+    void _add_opt(char opt);
+    void _add_opt(const _Param&& opts);
+    void _add_opt(const std::initializer_list<char>&& list);
+    void _add_long_opt(const std::initializer_list<_Param>&& list);
 };
 
 class cli_parsing_error : public std::runtime_error

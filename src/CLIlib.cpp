@@ -8,17 +8,6 @@ const std::shared_ptr<CLI>& CLI::get_instance()
     return ptr;
 }
 
-void CLI::_add_long_opt(const std::initializer_list<_Param>& list)
-{
-    for (const auto& opt : list)
-        add_long_opt(opt);
-}
-
-bool CLI::_is_valid_token(const _Param& opt) const noexcept
-{
-    return _valid_parameters.find(opt) != _valid_parameters.end();
-}
-
 void CLI::parse_args(int argc, char** argv)
 {
     for (int i{1}; i < argc; ++i)
@@ -30,7 +19,7 @@ void CLI::parse_args(int argc, char** argv)
                 _extract_long_opt(argv[i] + 2);
             // parameter is short
             else
-                _extract_short_opts(argv[i] + 1);
+                _extract_short_opt(argv[i] + 1);
         // parsing value
         else
         {
@@ -54,13 +43,7 @@ void CLI::clear()
     _valid_parameters.clear();
 }
 
-void CLI::_check_empty_option(const char* opt)
-{
-    if (!(*opt))
-        throw cli_parsing_error("ERROR: Empty option");
-}
-
-void CLI::_extract_short_opts(const char* opt)
+void CLI::_extract_short_opt(const char* opt)
 {
     _check_empty_option(opt);
     while (*opt)
@@ -105,5 +88,36 @@ void CLI::_validate_current_arg() const
     // this token is not expected
     if (!_valid_parameters.empty() && !_is_valid_token(_current_param))
         throw cli_parsing_error("ERROR: Invalid  option");
+}
+
+void CLI::_check_empty_option(const char* opt)
+{
+    if (!(*opt))
+        throw cli_parsing_error("ERROR: Empty option");
+}
+
+bool CLI::_is_valid_token(const _Param& opt) const noexcept
+{
+    return _valid_parameters.find(opt) != _valid_parameters.end();
+}
+
+void CLI::_add_long_opt(const std::initializer_list<_Param>&& list)
+{
+    for (const auto& opt : list)
+        add_long_opt(opt);
+}
+
+void CLI::_add_opt(char opt) { _valid_parameters.emplace(1, opt); }
+
+void CLI::_add_opt(const std::initializer_list<char>&& list)
+{
+    for (auto opt : list)
+        _add_opt(opt);
+}
+
+void CLI::_add_opt(const _Param&& opts)
+{
+    for (auto opt : opts)
+        _add_opt(opt);
 }
 } // namespace CLI
