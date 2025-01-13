@@ -35,6 +35,7 @@ private:
     void _append_token();
     void _validate_current_arg() const;
     void _check_empty_option(const char* opt);
+    inline bool _is_valid_token(const _Param& opt) const noexcept;
 
     void _add_opt(const std::initializer_list<const char>& list);
     void _add_opt(const std::initializer_list<_Param>& list);
@@ -46,8 +47,6 @@ public:
     ~CLI() = default;
 
     inline const auto& tokens() const noexcept { return _tokens; }
-    inline bool is_valid_token(const token& token) const noexcept;
-    inline bool is_valid_token(const _Param& opt) const noexcept;
 
     template <typename... Args>
     void add_opt(Args&&... args)

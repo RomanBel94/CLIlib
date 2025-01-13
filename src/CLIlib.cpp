@@ -14,12 +14,7 @@ void CLI::_add_long_opt(const std::initializer_list<_Param>& list)
         add_long_opt(opt);
 }
 
-bool CLI::is_valid_token(const token& token) const noexcept
-{
-    return is_valid_token(token.first);
-}
-
-bool CLI::is_valid_token(const _Param& opt) const noexcept
+bool CLI::_is_valid_token(const _Param& opt) const noexcept
 {
     return _valid_parameters.find(opt) != _valid_parameters.end();
 }
@@ -108,7 +103,7 @@ void CLI::_append_token()
 void CLI::_validate_current_arg() const
 {
     // this token is not expected
-    if (!_valid_parameters.empty() && !is_valid_token(_current_param))
+    if (!_valid_parameters.empty() && !_is_valid_token(_current_param))
         throw cli_parsing_error("ERROR: Invalid  option");
 }
 } // namespace CLI
