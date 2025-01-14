@@ -1,6 +1,6 @@
 ﻿cmake_minimum_required(VERSION 3.10)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # check if CLIlib is buildig as master project of subproject
@@ -19,7 +19,7 @@ endif()
 
 project(
     CLIlib
-    VERSION 0.9.4.4
+    VERSION 0.9.5
     LANGUAGES CXX
     DESCRIPTION "Small library for implementation command line interface."
 )

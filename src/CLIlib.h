@@ -20,7 +20,7 @@ public:
     static const std::shared_ptr<CLI>& get_instance();
     void parse_args(int argc, char** argv);
 
-    inline const auto& tokens() const noexcept { return _tokens; }
+    inline const std::list<token>& tokens() const noexcept { return _tokens; }
 
     template <typename... Args>
     void add_opt(Args&&... args)
