@@ -116,6 +116,20 @@ TEST(CLI_EmptyOptionsNoValidation, EmptyLongOptionGivenWithNoEmptyAfter)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
+TEST(CLI_EmptyOptionsNoValidation, EmptyOptionOnlyValuesGiven)
+{
+    // Arrange
+    clear_all();
+    const char* args_pack[] = {"", "89", "some_value"};
+    expected_token_list = {{"", "89"}, {"", "some_value"}};
+
+    // Act
+    EXPECT_NO_THROW(cli->parse_args(3, const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
 TEST(CLI_ShortKeysNoValidation, SingleShortKeyLowerCase)
 {
     // Arrange
