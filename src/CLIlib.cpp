@@ -73,7 +73,11 @@ void CLI::_extract_long_opt(const char* opt)
         _current_value = opt;
     }
     if (_current_param.size() == 1) // expected long option, short was given
+    {
+        clear();
         throw(cli_parsing_error("ERROR: Expected long option"));
+    }
+
     _append_token();
 }
 
@@ -83,17 +87,23 @@ void CLI::_append_token()
     _tokens.emplace_back(_current_param, _current_value);
 }
 
-void CLI::_validate_current_arg() const
+void CLI::_validate_current_arg()
 {
     // this token is not expected
     if (!_valid_parameters.empty() && !_is_valid_token(_current_param))
+    {
+        clear();
         throw cli_parsing_error("ERROR: Invalid  option");
+    }
 }
 
 void CLI::_check_empty_option(const char* opt)
 {
     if (!(*opt))
+    {
+        clear();
         throw cli_parsing_error("ERROR: Empty option");
+    }
 }
 
 bool CLI::_is_valid_token(const _Param& opt) const noexcept

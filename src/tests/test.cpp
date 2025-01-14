@@ -46,7 +46,7 @@ TEST(CLI_EmptyOptionsNoValidation, EmptyShortKeyGivenWithNoEmptyBefore)
     // Arrange
     clear_all();
     const char* args_pack[] = {"", "-k", "-"};
-    expected_token_list = {{"k", ""}};
+    // expected_token_list is empty
 
     // Act
     EXPECT_THROW(cli->parse_args(3, const_cast<char**>(args_pack)),
@@ -91,7 +91,7 @@ TEST(CLI_EmptyOptionsNoValidation, EmptyLongOptionGivenWithNoEmptyBefore)
     // Arrange
     clear_all();
     const char* args_pack[] = {"", "--param", "--"};
-    expected_token_list = {{"param", ""}};
+    // expected_token_list is empty
 
     // Act
     EXPECT_THROW(cli->parse_args(3, const_cast<char**>(args_pack)),

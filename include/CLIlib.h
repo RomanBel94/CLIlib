@@ -54,7 +54,7 @@ private:
     void _extract_short_opt(const char* opts);
     void _extract_long_opt(const char* opt);
     void _append_token();
-    void _validate_current_arg() const;
+    void _validate_current_arg();
     void _check_empty_option(const char* opt);
     inline bool _is_valid_token(const _Param& opt) const noexcept;
 
