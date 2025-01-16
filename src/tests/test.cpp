@@ -16,7 +16,7 @@ TEST(CLI_EmptyOptionsNoValidation, NoArgumentsGiven)
 {
     // Arrange
     clear_all();
-    // In console:
+    // In console: app_name
     const char* args_pack[] = {""};
     // expected_token_list is empty
 
@@ -31,7 +31,7 @@ TEST(CLI_EmptyOptionsNoValidation, EmptyShortKeyGiven)
 {
     // Arrange
     clear_all();
-    // In console: -
+    // In console: app_name -
     const char* args_pack[] = {"", "-"};
     // expected_token_list is empty
 
@@ -47,7 +47,7 @@ TEST(CLI_EmptyOptionsNoValidation, EmptyShortKeyGivenWithNoEmptyBefore)
 {
     // Arrange
     clear_all();
-    // In console: -k -
+    // In console: app_name -k -
     const char* args_pack[] = {"", "-k", "-"};
     // expected_token_list is empty
 
@@ -63,7 +63,7 @@ TEST(CLI_EmptyOptionsNoValidation, EmptyShortKeyGivenWithNoEmptyAfter)
 {
     // Arrange
     clear_all();
-    // In console: - -e
+    // In console: app_name - -e
     const char* args_pack[] = {"", "-", "-e"};
     // expected_token_list is empty
 
@@ -79,7 +79,7 @@ TEST(CLI_EmptyOptionsNoValidation, EmptyLongOptionGiven)
 {
     // Arrange
     clear_all();
-    // In console: --
+    // In console: app_name --
     const char* args_pack[] = {"", "--"};
     // expected_token_list is empty
 
@@ -95,7 +95,7 @@ TEST(CLI_EmptyOptionsNoValidation, EmptyLongOptionGivenWithNoEmptyBefore)
 {
     // Arrange
     clear_all();
-    // In console: --param --
+    // In console: app_name --param --
     const char* args_pack[] = {"", "--param", "--"};
     // expected_token_list is empty
 
@@ -111,7 +111,7 @@ TEST(CLI_EmptyOptionsNoValidation, EmptyLongOptionGivenWithNoEmptyAfter)
 {
     // Arrange
     clear_all();
-    // In console: -- --param
+    // In console: app_name -- --param
     const char* args_pack[] = {"", "--", "--param"};
     // expected_token_list is empty
 
@@ -127,7 +127,7 @@ TEST(CLI_EmptyOptionsNoValidation, OnlyValuesGiven)
 {
     // Arrange
     clear_all();
-    // In console: 89 some_value
+    // In console: app_name 89 some_value
     const char* args_pack[] = {"", "89", "some_value"};
     expected_token_list = {{"", "89"}, {"", "some_value"}};
 
@@ -142,7 +142,7 @@ TEST(CLI_EmptyOptionsNoValidation, ValuesAtStartKeysAtEnd)
 {
     // Arrange
     clear_all();
-    // In console: 89 some_value -k34 param
+    // In console: app_name 89 some_value -k34 param
     const char* args_pack[] = {"", "89", "some_value", "-k34", "param"};
     expected_token_list = {
         {"", "89"}, {"", "some_value"}, {"k", "34"}, {"k", "param"}};
@@ -158,7 +158,7 @@ TEST(CLI_ShortKeysNoValidation, SingleShortKeyLowerCase)
 {
     // Arrange
     clear_all();
-    // In console: -t
+    // In console: app_name -t
     const char* args_pack[] = {"", "-t"};
     expected_token_list = {{"t", ""}};
 
@@ -173,7 +173,7 @@ TEST(CLI_ShortKeysNoValidation, SingleShortKeyUpperCase)
 {
     // Arrange
     clear_all();
-    // In console: -H
+    // In console: app_name -H
     const char* args_pack[] = {"", "-H"};
     expected_token_list = {{"H", ""}};
 
@@ -188,7 +188,7 @@ TEST(CLI_ShortKeysNoValidation, SingleShortKeyWithNearNumberValue)
 {
     // Arrange
     clear_all();
-    // In console: -t23
+    // In console: app_name -t23
     const char* args_pack[] = {"", "-t23"};
     expected_token_list = {{"t", "23"}};
 
@@ -203,7 +203,7 @@ TEST(CLI_ShortKeysNoValidation, SingleShortKeyWithFarNumberValue)
 {
     // Arrange
     clear_all();
-    // In console: -B 98
+    // In console: app_name -B 98
     const char* args_pack[] = {"", "-B", "98"};
     expected_token_list = {{"B", "98"}};
 
@@ -218,7 +218,7 @@ TEST(CLI_ShortKeysNoValidation, SingleShortKeyWithNearSomeNumberValues)
 {
     // Arrange
     clear_all();
-    // In console: -k89 12 34 52
+    // In console: app_name -k89 12 34 52
     const char* args_pack[] = {"", "-k89", "12", "34", "52"};
     expected_token_list = {{"k", "89"}, {"k", "12"}, {"k", "34"}, {"k", "52"}};
 
@@ -233,7 +233,7 @@ TEST(CLI_ShortKeysNoValidation, SingleShortKeyWithFarSomeNumberValues)
 {
     // Arrange
     clear_all();
-    // In console: -k 12 34 52
+    // In console: app_name -k 12 34 52
     const char* args_pack[] = {"", "-k", "12", "34", "52"};
     expected_token_list = {{"k", "12"}, {"k", "34"}, {"k", "52"}};
 
