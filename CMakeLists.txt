@@ -42,6 +42,6 @@ if(CLI_MASTER_PROJECT)
     # after building tests, they will start automatically
     add_custom_command(
         TARGET run_tests POST_BUILD
-        COMMAND ${CMAKE_BINARY_DIR}/run_tests
+        COMMAND ${CMAKE_CURRENT_BINARY_DIR}/run_tests
     )
 endif()
