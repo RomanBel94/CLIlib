@@ -111,17 +111,17 @@ bool CLI::_is_valid_token(const _Param& opt) const noexcept
     return _valid_parameters.find(opt) != _valid_parameters.end();
 }
 
-void CLI::_add_long_opt(const std::initializer_list<_Param>&& list)
+void CLI::_add_long_opt(const std::initializer_list<_Param>&& opt_list)
 {
-    for (const auto& opt : list)
+    for (const auto& opt : opt_list)
         add_long_opt(opt);
 }
 
 void CLI::_add_opt(char opt) { _valid_parameters.emplace(1, opt); }
 
-void CLI::_add_opt(const std::initializer_list<char>&& list)
+void CLI::_add_opt(const std::initializer_list<char>&& opt_list)
 {
-    for (auto opt : list)
+    for (auto opt : opt_list)
         _add_opt(opt);
 }
 

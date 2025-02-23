@@ -51,7 +51,7 @@ private:
     CLI& operator=(const CLI&) = delete;
     CLI& operator=(CLI&&) = delete;
 
-    void _extract_short_opt(const char* opts);
+    void _extract_short_opt(const char* opt);
     void _extract_long_opt(const char* opt);
     void _append_token();
     void _validate_current_arg();
@@ -60,17 +60,21 @@ private:
 
     void _add_opt(char opt);
     void _add_opt(const _Param&& opts);
-    void _add_opt(const std::initializer_list<char>&& list);
-    void _add_long_opt(const std::initializer_list<_Param>&& list);
+    void _add_opt(const std::initializer_list<char>&& opt_list);
+    void _add_long_opt(const std::initializer_list<_Param>&& opt_list);
 };
 
 class cli_parsing_error : public std::runtime_error
 {
 public:
-    cli_parsing_error(const char* str) : runtime_error(str) {}
-    cli_parsing_error(const std::string& str) : runtime_error(str) {}
-    cli_parsing_error(const runtime_error& error) : runtime_error(error) {}
-    cli_parsing_error(runtime_error&& error) : runtime_error(std::move(error))
+    explicit cli_parsing_error(const char* str) : runtime_error(str) {}
+    explicit cli_parsing_error(const std::string& str) : runtime_error(str) {}
+    explicit cli_parsing_error(const runtime_error& error)
+        : runtime_error(error)
+    {
+    }
+    explicit cli_parsing_error(runtime_error&& error)
+        : runtime_error(std::move(error))
     {
     }
 };
