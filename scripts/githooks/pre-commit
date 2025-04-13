@@ -1,7 +1,0 @@
-#!/bin/sh
-
-# this script automatically formats changed files before commit
-for file in `git diff --staged --name-only | grep -i -E '\.(c|cpp|h|hpp)$'`; do
-    clang-format ${file} -i
-    git add ${file}
-done
