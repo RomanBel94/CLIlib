@@ -3,25 +3,189 @@
 // has to be included after all other includes
 #include "../../googletest/googletest/include/gtest/gtest.h"
 
+/* TODO:
+ *
+ * CLI_EmptyOptionsNoValidation
+ *
+ * 1. + app_name            (NoOptionsGiven)
+ * 2. + app_name -          (OneMinusGiven)
+ * 3. + app_name --         (TwoMinusesGiven)
+ *
+ * CLI_ShortOptionsNoValidation
+ *
+ * 1. + app_name -k         (OneShortKeyWasGivenWithNoValue)
+ * 2. + app_name -k4        (OneShortKeyWasGivenWithNearNumberValue)
+ * 3. + app_name -k 4       (OneShortKeyWasGivenWithFarNumberValue)
+ * 4. + app_name -k 4 3     (OneShortKeyWasGivenWithTwoFarNumberValues)
+ * 5. + app_name -k4 3      (OneShortKeyWasGivenWithOneNearOneFarNumberValues)
+ * 6. + app_name -k -j (TwoShortKeysWithTwoMinusesWasGivenWithNoNumberValues)
+ * 7. + app_name -kj (TwoShortKeysWithOneMinuseWasGivenWithNoNumberValues)
+ * 8. - app_name -k v
+ * 9. - app_name -k v
+ *
+ * */
+
 auto cli = CLI::CLI::get_instance();
 std::list<CLI::CLI::token> expected_token_list;
 
-void clear_all()
+void reset_all()
 {
     expected_token_list.clear();
     cli->clear();
 }
 
-TEST(CLI_EmptyOptionsNoValidation, NoArgumentsGiven)
+TEST(CLI_EmptyOptionsNoValidation, NoOptionsGiven)
 {
     // Arrange
-    clear_all();
+    reset_all();
     // In console: app_name
     const char* args_pack[] = {""};
     // expected_token_list is empty
 
     // Act
     EXPECT_NO_THROW(cli->parse_args(1, const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(CLI_EmptyOptionsNoValidation, OneMinusGiven)
+{
+    // Arrange
+    reset_all();
+    // In console: app_name -
+    const char* args_pack[] = {"", "-"};
+    // expected_token_list is empty
+
+    // Act
+    EXPECT_THROW(cli->parse_args(2, const_cast<char**>(args_pack)),
+                 CLI::cli_parsing_error);
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(CLI_EmptyOptionsNoValidation, TwoMinusesGiven)
+{
+    // Arrange
+    reset_all();
+    // In console: app_name --
+    const char* args_pack[] = {"", "--"};
+    // expected_token_list is empty
+
+    // Act
+    EXPECT_THROW(cli->parse_args(2, const_cast<char**>(args_pack)),
+                 CLI::cli_parsing_error);
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+/*******************************************************************************/
+
+TEST(CLI_ShortOptionsNoValidation, OneShortKeyWasGivenWithNoValue)
+{
+    // Arrange
+    reset_all();
+    // In console: app_name -k
+    const char* args_pack[] = {"", "-k"};
+    expected_token_list = {{"k", ""}};
+
+    // Act
+    EXPECT_NO_THROW(cli->parse_args(2, const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(CLI_ShortOptionsNoValidation, OneShortKeyWasGivenWithNearNumberValue)
+{
+    // Arrange
+    reset_all();
+    // In console: app_name -k4
+    const char* args_pack[] = {"", "-k4"};
+    expected_token_list = {{"k", "4"}};
+
+    // Act
+    EXPECT_NO_THROW(cli->parse_args(2, const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(CLI_ShortOptionsNoValidation, OneShortKeyWasGivenWithFarNumberValue)
+{
+    // Arrange
+    reset_all();
+    // In console: app_name -k 4
+    const char* args_pack[] = {"", "-k", "4"};
+    expected_token_list = {{"k", "4"}};
+
+    // Act
+    EXPECT_NO_THROW(cli->parse_args(3, const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(CLI_ShortOptionsNoValidation, OneShortKeyWasGivenWithTwoFarNumberValues)
+{
+    // Arrange
+    reset_all();
+    // In console: app_name -k 4 3
+    const char* args_pack[] = {"", "-k", "4", "3"};
+    expected_token_list = {{"k", "4"}, {"k", "3"}};
+
+    // Act
+    EXPECT_NO_THROW(cli->parse_args(4, const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(CLI_ShortOptionsNoValidation,
+     OneShortKeyWasGivenWithOneNearOneFarNumberValues)
+{
+    // Arrange
+    reset_all();
+    // In console: app_name -k4 3
+    const char* args_pack[] = {"", "-k4", "3"};
+    expected_token_list = {{"k", "4"}, {"k", "3"}};
+
+    // Act
+    EXPECT_NO_THROW(cli->parse_args(3, const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(CLI_ShortOptionsNoValidation,
+     TwoShortKeysWithTwoMinusesWasGivenWithNoNumberValues)
+{
+    // Arrange
+    reset_all();
+    // In console: app_name -k -j
+    const char* args_pack[] = {"", "-k", "-j"};
+    expected_token_list = {{"k", ""}, {"j", ""}};
+
+    // Act
+    EXPECT_NO_THROW(cli->parse_args(3, const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(CLI_ShortOptionsNoValidation,
+     TwoShortKeysWithOneMinuseWasGivenWithNoNumberValues)
+{
+    // Arrange
+    reset_all();
+    // In console: app_name -kj
+    const char* args_pack[] = {"", "-kj"};
+    expected_token_list = {{"k", ""}, {"j", ""}};
+
+    // Act
+    EXPECT_NO_THROW(cli->parse_args(2, const_cast<char**>(args_pack)));
 
     // Assert
     EXPECT_EQ(cli->tokens(), expected_token_list);
