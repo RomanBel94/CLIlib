@@ -5,7 +5,9 @@
 
 /* TODO list:
  *
- * CLI_Test_1:    Empty options with no validation
+ * -----------------------------------------------
+ * + Test_1:      Empty options with no validation
+ * -----------------------------------------------
  *
  * + Case_1:      app_name
  *
@@ -13,7 +15,9 @@
  *
  * + Case_3:      app_name --
  *
- *  CLI_Test_2:   Short options with no validation
+ * -----------------------------------------------
+ * - Test_2:      Short options with no validation
+ * -----------------------------------------------
  *
  * + Case_1:      app_name -k
  *
@@ -41,19 +45,19 @@
  *
  * + Case_13:     app_name -kj1
  *
- * - app_name -k value
+ * - Case_14:     app_name -k value
  *
- * - app_name -k value1 value2
+ * - Case_15:     app_name -k value1 value2
  *
- * - app_name -k value1 -j value2
+ * - Case_16:     app_name -k value1 -j value2
  *
- * - app_name -k value -j
+ * - Case_17:     app_name -k value -j
  *
- * - app_name -k
+ * - Case_18:     app_name -k
  *
- * - app_name -k v
+ * - Case_19:     app_name -k v
  *
- * - app_name -k v
+ * - Case_20:     app_name -k v
  *
  * */
 
@@ -66,7 +70,7 @@ inline void reset_all()
     cli->clear();
 }
 
-TEST(CLI_Test_1, Case_1)
+TEST(Test_1, Case_1)
 {
     // Arrange
     reset_all();
@@ -82,7 +86,7 @@ TEST(CLI_Test_1, Case_1)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_Test_1, Case_2)
+TEST(Test_1, Case_2)
 {
     // Arrange
     reset_all();
@@ -99,7 +103,7 @@ TEST(CLI_Test_1, Case_2)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_Test_1, Case_3)
+TEST(Test_1, Case_3)
 {
     // Arrange
     reset_all();
@@ -118,7 +122,7 @@ TEST(CLI_Test_1, Case_3)
 
 /*******************************************************************************/
 
-TEST(CLI_Test_2, Case_1)
+TEST(Test_2, Case_1)
 {
     // Arrange
     reset_all();
@@ -134,7 +138,7 @@ TEST(CLI_Test_2, Case_1)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_Test_2, Case_2)
+TEST(Test_2, Case_2)
 {
     // Arrange
     reset_all();
@@ -150,7 +154,7 @@ TEST(CLI_Test_2, Case_2)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_Test_2, Case_3)
+TEST(Test_2, Case_3)
 {
     // Arrange
     reset_all();
@@ -166,7 +170,7 @@ TEST(CLI_Test_2, Case_3)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_Test_2, Case_4)
+TEST(Test_2, Case_4)
 {
     // Arrange
     reset_all();
@@ -182,7 +186,7 @@ TEST(CLI_Test_2, Case_4)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_Test_2, Case_5)
+TEST(Test_2, Case_5)
 {
     // Arrange
     reset_all();
@@ -198,7 +202,7 @@ TEST(CLI_Test_2, Case_5)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_Test_2, Case_6)
+TEST(Test_2, Case_6)
 {
     // Arrange
     reset_all();
@@ -214,7 +218,7 @@ TEST(CLI_Test_2, Case_6)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_Test_2, Case_7)
+TEST(Test_2, Case_7)
 {
     // Arrange
     reset_all();
@@ -230,7 +234,7 @@ TEST(CLI_Test_2, Case_7)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_Test_2, Case_8)
+TEST(Test_2, Case_8)
 {
     // Arrange
     reset_all();
@@ -246,7 +250,7 @@ TEST(CLI_Test_2, Case_8)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_Test_2, Case_9)
+TEST(Test_2, Case_9)
 {
     // Arrange
     reset_all();
@@ -262,7 +266,7 @@ TEST(CLI_Test_2, Case_9)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_Test_2, Case_10)
+TEST(Test_2, Case_10)
 {
     // Arrange
     reset_all();
@@ -278,7 +282,7 @@ TEST(CLI_Test_2, Case_10)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_Test_2, Case_11)
+TEST(Test_2, Case_11)
 {
     // Arrange
     reset_all();
@@ -294,7 +298,7 @@ TEST(CLI_Test_2, Case_11)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_Test_2, Case_12)
+TEST(Test_2, Case_12)
 {
     // Arrange
     reset_all();
@@ -310,7 +314,7 @@ TEST(CLI_Test_2, Case_12)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_Test_2, Case_13)
+TEST(Test_2, Case_13)
 {
     // Arrange
     reset_all();
