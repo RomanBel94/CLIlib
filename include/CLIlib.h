@@ -81,10 +81,10 @@ private:
     inline bool _is_valid_token(const _Param& opt) const noexcept;
 
     // Overloaded functions for adding new options to be valid
-    inline void _add_opt(char opt);
-    inline void _add_opt(const _Param&& opts);
-    inline void _add_opt(const std::initializer_list<char>&& opt_list);
-    inline void _add_long_opt(const std::initializer_list<_Param>&& opt_list);
+    void _add_opt(char opt);
+    void _add_opt(const _Param&& opts);
+    void _add_opt(const std::initializer_list<char>&& opt_list);
+    void _add_long_opt(const std::initializer_list<_Param>&& opt_list);
 };
 
 // Special type of exception
