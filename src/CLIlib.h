@@ -1,7 +1,6 @@
 ﻿#pragma once
 #ifndef CLI_LIB_H
 
-#include <cctype>
 #include <list>
 #include <memory>
 #include <stdexcept>
