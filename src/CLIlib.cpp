@@ -66,8 +66,10 @@ void CLI::_extract_long_opt(const char* opt)
     }
     if (_current_param.size() == 1) // expected long option, short was given
     {
+        std::string wrong_option{_current_param};
         clear();
-        throw(cli_parsing_error("ERROR: Expected long option"));
+        throw(cli_parsing_error("ERROR: Expected long option. " + wrong_option +
+                                " was given."));
     }
 
     _append_token();
@@ -84,8 +86,9 @@ void CLI::_validate_current_arg()
     // this token is not expected
     if (!_valid_parameters.empty() && !_is_valid_token(_current_param))
     {
+        std::string wrong_option{_current_param};
         clear();
-        throw cli_parsing_error("ERROR: Invalid  option");
+        throw cli_parsing_error("ERROR: Invalid option: " + wrong_option);
     }
 }
 
