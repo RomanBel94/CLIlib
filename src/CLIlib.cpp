@@ -38,6 +38,7 @@ void CLI::parse_args(int argc, char** argv)
 void CLI::_extract_short_opt(const char* opt)
 {
     _check_empty_option(opt);
+
     while (*opt)
     {
         _current_param = *opt++;
@@ -46,6 +47,7 @@ void CLI::_extract_short_opt(const char* opt)
         // for token which looks like -p777
         while (isdigit(*opt))
             _current_value.push_back(*opt++);
+
         _append_token();
     }
 }
