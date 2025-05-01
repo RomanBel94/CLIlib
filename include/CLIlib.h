@@ -10,73 +10,97 @@
 
 namespace CLI
 {
-class CLI
+class CLI final
 {
 public:
+    // Type aliases
     using _Param = std::string;
     using _Value = std::string;
     using token = std::pair<_Param, _Value>;
 
-private:
-    _Param _current_param{};
-    _Value _current_value{};
+    // Returns std::shared_ptr that points to static CLI instance
+    static const std::shared_ptr<CLI>& get_instance();
 
+    // Parse command-line arguments and place them into std::list of tokens
+    void parse_args(int argc, char** argv);
+
+    // Returns parsed tokens
+    const std::list<token>& tokens() const noexcept { return _tokens; }
+
+    // Add new valid short option(s) to be parsed
+    template <typename... Args>
+    inline void add_opt(Args&&... args)
+    {
+        _add_opt({args...});
+    }
+
+    // Add new valid long option(s) to be parsed
+    template <typename... Args>
+    inline void add_long_opt(Args&&... args)
+    {
+        _add_long_opt({args...});
+    }
+
+    // Clear all content of CLI object
+    inline void clear() noexcept
+    {
+        _current_param.clear();
+        _current_value.clear();
+        _tokens.clear();
+        _valid_parameters.clear();
+    }
+
+    // Destructor is default
+    ~CLI() = default;
+
+private:
+    // Current parameter that was read
+    _Param _current_param{};
+    // Current parameter value that was read
+    _Value _current_value{};
+    // Valid parameters, if it is empty, all parameters are valid
     std::unordered_set<_Param> _valid_parameters{};
+    // List of read tokens
     std::list<token> _tokens{};
 
+    // Constructor is default
     CLI() = default;
+
+    // Other constructors are deleted
     CLI(const CLI&) = delete;
     CLI(CLI&&) = delete;
     CLI& operator=(const CLI&) = delete;
     CLI& operator=(CLI&&) = delete;
 
-    void _extract_short_opts(const char* opts);
+    // Auxillary private functions
+    void _extract_short_opt(const char* opt);
     void _extract_long_opt(const char* opt);
-    void _append_token();
-    void _validate_current_arg() const;
-    void _check_empty_option(const char* opt);
+    inline void _append_token();
+    inline void _validate_current_arg();
+    inline void _check_empty_option(const char* opt);
+    inline bool _is_valid_token(const _Param& opt) const noexcept;
 
-    void _add_opt(const std::initializer_list<const char>& list);
-    void _add_long_opt(const std::initializer_list<_Param>& list);
-
-public:
-    static const std::shared_ptr<CLI>& get_instance();
-
-    ~CLI() = default;
-
-    inline const auto& tokens() const noexcept { return _tokens; }
-    inline bool is_valid_token(const token& token) const noexcept;
-    inline bool is_valid_token(const _Param& opt) const noexcept;
-
-    void add_opt(const char opt);
-    void add_opt(const char* opts);
-    void add_opt(const _Param& opts);
-
-    template <typename... Args>
-    void add_opt(Args&&... args)
-    {
-        _add_opt({args...});
-    }
-
-    void add_long_opt(const _Param& opt);
-
-    template <typename... Args>
-    void add_long_opt(Args&&... args)
-    {
-        _add_long_opt({args...});
-    }
-
-    void parse_args(int argc, char** argv);
-    void clear();
+    // Overloaded functions for adding new options to be valid
+    inline void _add_opt(char opt);
+    inline void _add_opt(const _Param&& opts);
+    inline void _add_opt(const std::initializer_list<char>&& opt_list);
+    inline void _add_long_opt(const std::initializer_list<_Param>&& opt_list);
 };
 
-class cli_parsing_error : public std::runtime_error
+// Special type of exception
+class cli_parsing_error final : public std::runtime_error
 {
 public:
-    cli_parsing_error(const char* str) : runtime_error(str) {}
-    cli_parsing_error(const std::string& str) : runtime_error(str) {}
-    cli_parsing_error(const runtime_error& error) : runtime_error(error) {}
-    cli_parsing_error(runtime_error&& error) : runtime_error(std::move(error))
+    explicit cli_parsing_error(const char* str) : std::runtime_error(str) {}
+    explicit cli_parsing_error(const std::string& str) : std::runtime_error(str)
+    {
+    }
+    explicit cli_parsing_error(const std::runtime_error& error)
+        : std::runtime_error(error)
+    {
+    }
+    explicit cli_parsing_error(std::runtime_error&& error)
+        : std::runtime_error(std::forward<std::runtime_error>(error))
     {
     }
 };

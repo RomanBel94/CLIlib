@@ -8,40 +8,6 @@ const std::shared_ptr<CLI>& CLI::get_instance()
     return ptr;
 }
 
-void CLI::add_opt(const char opt) { _valid_parameters.emplace(1, opt); }
-
-void CLI::add_opt(const char* opts)
-{
-    while (*opts++)
-        add_opt(*opts);
-}
-
-void CLI::add_opt(const _Param& opts) { add_opt(opts.c_str()); }
-
-void CLI::_add_opt(const std::initializer_list<const char>& list)
-{
-    for (const auto opt : list)
-        add_opt(opt);
-}
-
-void CLI::add_long_opt(const _Param& opt) { _valid_parameters.emplace(opt); }
-
-void CLI::_add_long_opt(const std::initializer_list<_Param>& list)
-{
-    for (const auto& opt : list)
-        add_long_opt(opt);
-}
-
-bool CLI::is_valid_token(const token& token) const noexcept
-{
-    return is_valid_token(token.first);
-}
-
-bool CLI::is_valid_token(const _Param& opt) const noexcept
-{
-    return _valid_parameters.find(opt) != _valid_parameters.end();
-}
-
 void CLI::parse_args(int argc, char** argv)
 {
     for (int i{1}; i < argc; ++i)
@@ -53,7 +19,7 @@ void CLI::parse_args(int argc, char** argv)
                 _extract_long_opt(argv[i] + 2);
             // parameter is short
             else
-                _extract_short_opts(argv[i] + 1);
+                _extract_short_opt(argv[i] + 1);
         // parsing value
         else
         {
@@ -69,19 +35,7 @@ void CLI::parse_args(int argc, char** argv)
     }
 }
 
-void CLI::clear()
-{
-    _tokens.clear();
-    _valid_parameters.clear();
-}
-
-void CLI::_check_empty_option(const char* opt)
-{
-    if (!(*opt))
-        throw cli_parsing_error("ERROR: Empty option");
-}
-
-void CLI::_extract_short_opts(const char* opt)
+void CLI::_extract_short_opt(const char* opt)
 {
     _check_empty_option(opt);
     while (*opt)
@@ -111,7 +65,11 @@ void CLI::_extract_long_opt(const char* opt)
         _current_value = opt;
     }
     if (_current_param.size() == 1) // expected long option, short was given
+    {
+        clear();
         throw(cli_parsing_error("ERROR: Expected long option"));
+    }
+
     _append_token();
 }
 
@@ -121,10 +79,47 @@ void CLI::_append_token()
     _tokens.emplace_back(_current_param, _current_value);
 }
 
-void CLI::_validate_current_arg() const
+void CLI::_validate_current_arg()
 {
     // this token is not expected
-    if (!_valid_parameters.empty() && !is_valid_token(_current_param))
+    if (!_valid_parameters.empty() && !_is_valid_token(_current_param))
+    {
+        clear();
+        throw cli_parsing_error("ERROR: Invalid  option");
+    }
+}
+
+void CLI::_check_empty_option(const char* opt)
+{
+    if (!(*opt))
+    {
+        clear();
         throw cli_parsing_error("ERROR: Empty option");
+    }
+}
+
+bool CLI::_is_valid_token(const _Param& opt) const noexcept
+{
+    return _valid_parameters.find(opt) != _valid_parameters.end();
+}
+
+void CLI::_add_long_opt(const std::initializer_list<_Param>&& opt_list)
+{
+    for (const auto& opt : opt_list)
+        add_long_opt(opt);
+}
+
+void CLI::_add_opt(char opt) { _valid_parameters.emplace(1, opt); }
+
+void CLI::_add_opt(const std::initializer_list<char>&& opt_list)
+{
+    for (auto opt : opt_list)
+        _add_opt(opt);
+}
+
+void CLI::_add_opt(const _Param&& opts)
+{
+    for (auto opt : opts)
+        _add_opt(opt);
 }
 } // namespace CLI
