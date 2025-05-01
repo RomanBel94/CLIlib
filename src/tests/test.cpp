@@ -3,36 +3,59 @@
 // has to be included after all other includes
 #include "../../googletest/googletest/include/gtest/gtest.h"
 
-/* TODO:
+/* TODO list:
  *
  * CLI_EmptyOptionsNoValidation
  *
  * 1. + app_name            (NoOptionsGiven)
+ *
  * 2. + app_name -          (OneMinusGiven)
+ *
  * 3. + app_name --         (TwoMinusesGiven)
  *
  * CLI_ShortOptionsNoValidation
  *
  * 1. + app_name -k         (OneShortKeyWithNoValue)
+ *
  * 2. + app_name -k4        (OneShortKeyWithNearNumberValue)
+ *
  * 3. + app_name -k 4       (OneShortKeyWithFarNumberValue)
+ *
  * 4. + app_name -k 4 3     (OneShortKeyWithTwoFarNumberValues)
+ *
  * 5. + app_name -k4 3      (OneShortKeyWithOneNearOneFarNumberValues)
+ *
  * 6. + app_name -k -j (TwoShortKeysWithTwoMinusesWithNoNumberValues)
+ *
  * 7. + app_name -kj (TwoShortKeysWithOneMinusWithNoNumberValues)
+ *
  * 8. + app_name -k1j2 (TwoShortKeysWithOneMinusAndTwoNearNumberValues)
+ *
  * 9. + app_name -k1 -j2 (TwoShortKeysWithTwoMinusesAndTwoNearNumberValues)
+ *
  * 10. + app_name -k 1 -j2
  * (TwoShortKeysWithTwoMinusesAndOneNearAndOneFarNumberValues)
+ *
  * 11. + app_name -k 1 -j 2 (TwoShortKeysWithTwoMinusesAndTwoFarNumberValues)
- * 12. - app_name -k1j
- * 13. - app_name -k value
- * 14. - app_name -k value1 value2
- * 15. - app_name -k value1 -j value2
- * 16. - app_name -k value -j
- * 17. - app_name -k v
- * 18. - app_name -k v
+ *
+ * 12. + app_name -k1j (TwoShortKeysWithOneMinusAndOneNearNumberValueAfterFirst)
+ *
+ * 13. + app_name -kj1
+ * (TwoShortKeysWithOneMinusAndOneNearNumberValueAfterSecond)
+ *
+ * 14. - app_name -k value
+ *
+ * 15. - app_name -k value1 value2
+ *
+ * 16. - app_name -k value1 -j value2
+ *
+ * 17. - app_name -k value -j
+ *
+ * 18. - app_name -k
+ *
  * 19. - app_name -k v
+ *
+ * 20. - app_name -k v
  *
  * */
 
@@ -276,6 +299,41 @@ TEST(CLI_ShortOptionsNoValidation,
     // Assert
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
+
+TEST(CLI_ShortOptionsNoValidation,
+     TwoShortKeysWithOneMinusAndOneNearNumberValueAfterFirst)
+{
+    // Arrange
+    reset_all();
+    // In console: app_name -k1j
+    const char* args_pack[] = {"", "-k1j"};
+    expected_token_list = {{"k", "1"}, {"j", ""}};
+
+    // Act
+    EXPECT_NO_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
+                                    const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(CLI_ShortOptionsNoValidation,
+     TwoShortKeysWithOneMinusAndOneNearNumberValueAfterSecond)
+{
+    // Arrange
+    reset_all();
+    // In console: app_name -kj1
+    const char* args_pack[] = {"", "-kj1"};
+    expected_token_list = {{"k", ""}, {"j", "1"}};
+
+    // Act
+    EXPECT_NO_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
+                                    const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
 int main(int argc, char** argv)
 {
     // inits googletest framework
