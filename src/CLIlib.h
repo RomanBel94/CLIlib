@@ -75,10 +75,10 @@ private:
     // Auxillary private functions
     void _extract_short_opt(const char* opt);
     void _extract_long_opt(const char* opt);
-    inline void _append_token();
-    inline void _validate_current_arg();
-    inline void _check_empty_option(const char* opt);
-    inline bool _is_valid_token(const _Param& opt) const noexcept;
+    void _append_token();
+    void _validate_current_arg();
+    void _check_empty_option(const char* opt);
+    bool _is_valid_token(const _Param& opt) const noexcept;
 
     // Overloaded functions for adding new options to be valid
     void _add_opt(char opt);
