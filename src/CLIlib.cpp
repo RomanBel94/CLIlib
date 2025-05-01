@@ -35,14 +35,6 @@ void CLI::parse_args(int argc, char** argv)
     }
 }
 
-void CLI::clear()
-{
-    _current_param.clear();
-    _current_value.clear();
-    _tokens.clear();
-    _valid_parameters.clear();
-}
-
 void CLI::_extract_short_opt(const char* opt)
 {
     _check_empty_option(opt);
