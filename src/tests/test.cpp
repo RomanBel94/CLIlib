@@ -7,41 +7,41 @@
  *
  * CLI_EmptyOptionsNoValidation
  *
- * 1. + app_name            (NoOptionsGiven)
+ * 1. + app_name            (NoOptions)
  *
- * 2. + app_name -          (OneMinusGiven)
+ * 2. + app_name -          (OneMinus)
  *
- * 3. + app_name --         (TwoMinusesGiven)
+ * 3. + app_name --         (TwoMinuses)
  *
  * CLI_ShortOptionsNoValidation
  *
- * 1. + app_name -k         (OneShortKeyWithNoValue)
+ * 1. + app_name -k         (OneShortKeyNoValue)
  *
- * 2. + app_name -k4        (OneShortKeyWithNearNumberValue)
+ * 2. + app_name -k4        (OneShortKeyNearNumberValue)
  *
- * 3. + app_name -k 4       (OneShortKeyWithFarNumberValue)
+ * 3. + app_name -k 4       (OneShortKeyFarNumberValue)
  *
- * 4. + app_name -k 4 3     (OneShortKeyWithTwoFarNumberValues)
+ * 4. + app_name -k 4 3     (OneShortKeyTwoFarNumberValues)
  *
- * 5. + app_name -k4 3      (OneShortKeyWithOneNearOneFarNumberValues)
+ * 5. + app_name -k4 3      (OneShortKeyOneNearOneFarNumberValues)
  *
- * 6. + app_name -k -j (TwoShortKeysWithTwoMinusesWithNoNumberValues)
+ * 6. + app_name -k -j (TwoShortKeysTwoMinusesWithNoNumberValues)
  *
- * 7. + app_name -kj (TwoShortKeysWithOneMinusWithNoNumberValues)
+ * 7. + app_name -kj (TwoShortKeysOneMinusWithNoNumberValues)
  *
- * 8. + app_name -k1j2 (TwoShortKeysWithOneMinusAndTwoNearNumberValues)
+ * 8. + app_name -k1j2 (TwoShortKeysOneMinusTwoNearNumberValues)
  *
- * 9. + app_name -k1 -j2 (TwoShortKeysWithTwoMinusesAndTwoNearNumberValues)
+ * 9. + app_name -k1 -j2 (TwoShortKeysTwoMinusesTwoNearNumberValues)
  *
  * 10. + app_name -k 1 -j2
- * (TwoShortKeysWithTwoMinusesAndOneNearAndOneFarNumberValues)
+ * (TwoShortKeysTwoMinusesOneNearAndOneFarNumberValues)
  *
- * 11. + app_name -k 1 -j 2 (TwoShortKeysWithTwoMinusesAndTwoFarNumberValues)
+ * 11. + app_name -k 1 -j 2 (TwoShortKeysTwoMinusesTwoFarNumberValues)
  *
- * 12. + app_name -k1j (TwoShortKeysWithOneMinusAndOneNearNumberValueAfterFirst)
+ * 12. + app_name -k1j (TwoShortKeysOneMinusOneNearNumberValueAfterFirst)
  *
  * 13. + app_name -kj1
- * (TwoShortKeysWithOneMinusAndOneNearNumberValueAfterSecond)
+ * (TwoShortKeysOneMinusOneNearNumberValueAfterSecond)
  *
  * 14. - app_name -k value
  *
@@ -68,7 +68,7 @@ void reset_all()
     cli->clear();
 }
 
-TEST(CLI_EmptyOptionsNoValidation, NoOptionsGiven)
+TEST(CLI_EmptyOptionsNoValidation, NoOptions)
 {
     // Arrange
     reset_all();
@@ -84,7 +84,7 @@ TEST(CLI_EmptyOptionsNoValidation, NoOptionsGiven)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_EmptyOptionsNoValidation, OneMinusGiven)
+TEST(CLI_EmptyOptionsNoValidation, OneMinus)
 {
     // Arrange
     reset_all();
@@ -101,7 +101,7 @@ TEST(CLI_EmptyOptionsNoValidation, OneMinusGiven)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_EmptyOptionsNoValidation, TwoMinusesGiven)
+TEST(CLI_EmptyOptionsNoValidation, TwoMinuses)
 {
     // Arrange
     reset_all();
@@ -120,7 +120,7 @@ TEST(CLI_EmptyOptionsNoValidation, TwoMinusesGiven)
 
 /*******************************************************************************/
 
-TEST(CLI_ShortOptionsNoValidation, OneShortKeyWithNoValue)
+TEST(CLI_ShortOptionsNoValidation, OneShortKeyNoValue)
 {
     // Arrange
     reset_all();
@@ -136,7 +136,7 @@ TEST(CLI_ShortOptionsNoValidation, OneShortKeyWithNoValue)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_ShortOptionsNoValidation, OneShortKeyWithNearNumberValue)
+TEST(CLI_ShortOptionsNoValidation, OneShortKeyNearNumberValue)
 {
     // Arrange
     reset_all();
@@ -152,7 +152,7 @@ TEST(CLI_ShortOptionsNoValidation, OneShortKeyWithNearNumberValue)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_ShortOptionsNoValidation, OneShortKeyWithFarNumberValue)
+TEST(CLI_ShortOptionsNoValidation, OneShortKeyFarNumberValue)
 {
     // Arrange
     reset_all();
@@ -168,7 +168,7 @@ TEST(CLI_ShortOptionsNoValidation, OneShortKeyWithFarNumberValue)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_ShortOptionsNoValidation, OneShortKeyWithTwoFarNumberValues)
+TEST(CLI_ShortOptionsNoValidation, OneShortKeyTwoFarNumberValues)
 {
     // Arrange
     reset_all();
@@ -184,7 +184,7 @@ TEST(CLI_ShortOptionsNoValidation, OneShortKeyWithTwoFarNumberValues)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_ShortOptionsNoValidation, OneShortKeyWithOneNearOneFarNumberValues)
+TEST(CLI_ShortOptionsNoValidation, OneShortKeyOneNearOneFarNumberValues)
 {
     // Arrange
     reset_all();
@@ -200,7 +200,7 @@ TEST(CLI_ShortOptionsNoValidation, OneShortKeyWithOneNearOneFarNumberValues)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_ShortOptionsNoValidation, TwoShortKeysWithTwoMinusesWithNoNumberValues)
+TEST(CLI_ShortOptionsNoValidation, TwoShortKeysTwoMinusesWithNoNumberValues)
 {
     // Arrange
     reset_all();
@@ -216,7 +216,7 @@ TEST(CLI_ShortOptionsNoValidation, TwoShortKeysWithTwoMinusesWithNoNumberValues)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_ShortOptionsNoValidation, TwoShortKeysWithOneMinusWithNoNumberValues)
+TEST(CLI_ShortOptionsNoValidation, TwoShortKeysOneMinusWithNoNumberValues)
 {
     // Arrange
     reset_all();
@@ -232,8 +232,7 @@ TEST(CLI_ShortOptionsNoValidation, TwoShortKeysWithOneMinusWithNoNumberValues)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_ShortOptionsNoValidation,
-     TwoShortKeysWithOneMinusAndTwoNearNumberValues)
+TEST(CLI_ShortOptionsNoValidation, TwoShortKeysOneMinusTwoNearNumberValues)
 {
     // Arrange
     reset_all();
@@ -249,8 +248,7 @@ TEST(CLI_ShortOptionsNoValidation,
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_ShortOptionsNoValidation,
-     TwoShortKeysWithTwoMinusesAndTwoNearNumberValues)
+TEST(CLI_ShortOptionsNoValidation, TwoShortKeysTwoMinusesTwoNearNumberValues)
 {
     // Arrange
     reset_all();
@@ -267,7 +265,7 @@ TEST(CLI_ShortOptionsNoValidation,
 }
 
 TEST(CLI_ShortOptionsNoValidation,
-     TwoShortKeysWithTwoMinusesAndOneNearAndOneFarNumberValues)
+     TwoShortKeysTwoMinusesOneNearAndOneFarNumberValues)
 {
     // Arrange
     reset_all();
@@ -283,8 +281,7 @@ TEST(CLI_ShortOptionsNoValidation,
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(CLI_ShortOptionsNoValidation,
-     TwoShortKeysWithTwoMinusesAndTwoFarNumberValues)
+TEST(CLI_ShortOptionsNoValidation, TwoShortKeysTwoMinusesTwoFarNumberValues)
 {
     // Arrange
     reset_all();
@@ -301,7 +298,7 @@ TEST(CLI_ShortOptionsNoValidation,
 }
 
 TEST(CLI_ShortOptionsNoValidation,
-     TwoShortKeysWithOneMinusAndOneNearNumberValueAfterFirst)
+     TwoShortKeysOneMinusOneNearNumberValueAfterFirst)
 {
     // Arrange
     reset_all();
@@ -318,7 +315,7 @@ TEST(CLI_ShortOptionsNoValidation,
 }
 
 TEST(CLI_ShortOptionsNoValidation,
-     TwoShortKeysWithOneMinusAndOneNearNumberValueAfterSecond)
+     TwoShortKeysOneMinusOneNearNumberValueAfterSecond)
 {
     // Arrange
     reset_all();
