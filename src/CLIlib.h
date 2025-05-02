@@ -4,7 +4,6 @@
 #include <list>
 #include <memory>
 #include <stdexcept>
-#include <string>
 #include <unordered_set>
 
 namespace CLI
