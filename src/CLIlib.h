@@ -72,11 +72,9 @@ private:
     CLI& operator=(CLI&&) = delete;
 
     // Auxillary private functions
-    void _extract_short_opt(const char* opt);
+    void _extract_short_opts(const char* opt);
     void _extract_long_opt(const char* opt);
     void _append_token();
-    void _validate_current_arg();
-    void _check_empty_option(const char* opt);
     bool _is_valid_token(const _Param& opt) const noexcept;
 
     // Overloaded functions for adding new options to be valid
