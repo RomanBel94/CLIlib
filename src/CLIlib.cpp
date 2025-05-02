@@ -12,8 +12,8 @@ const std::shared_ptr<CLI>& CLI::get_instance()
 void CLI::parse_args(int argc, char** argv)
 {
     std::regex short_option_pattern{R"(-([A-Z|a-z]+\d*)+)"};
-    std::regex long_option_pattern{R"(--\w+(-\w+)*(=\w+(-\w+)*)?)"};
-    std::regex value_pattern{R"(\w+(-\w+)*)"};
+    std::regex long_option_pattern{R"(--[A-Z|a-z]\w+(-\w+)*(=\w+(-\w+)*)?)"};
+    std::regex value_pattern{R"([A-Z|a-z|\d]\w*(-[A-Z|a-z|\d]\w*)*)"};
 
     for (int i{1}; i < argc; ++i)
     {
