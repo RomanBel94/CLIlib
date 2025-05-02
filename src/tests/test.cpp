@@ -26,7 +26,7 @@
  * + Case_8:      app_name ---
  *
  * -----------------------------------------------
- * - Test_2:      Short options with no validation
+ * + Test_2:      Short options with no validation
  * -----------------------------------------------
  *
  * + Case_1:      app_name -k
@@ -72,6 +72,54 @@
  * + Case_21:     app_name just-a-value
  *
  * + Case_22:     app_name just-a-value1 justavalue2
+ *
+ * -----------------------------------------------
+ * - Test_3:      Short options with no validation
+ * -----------------------------------------------
+ *
+ * + Case_1:      app_name --long_option1
+ *
+ * + Case_2:      app_name --long_option1 value1
+ *
+ * + Case_3:      app_name --long_option1=value1
+ *
+ * - Case_4:      app_name
+ *
+ * - Case_5:      app_name
+ *
+ * - Case_6:      app_name
+ *
+ * - Case_7:      app_name
+ *
+ * - Case_8:      app_name
+ *
+ * - Case_9:      app_name
+ *
+ * - Case_10:     app_name
+ *
+ * - Case_11:     app_name
+ *
+ * - Case_12:     app_name
+ *
+ * - Case_13:     app_name
+ *
+ * - Case_14:     app_name
+ *
+ * - Case_15:     app_name
+ *
+ * - Case_16:     app_name
+ *
+ * - Case_17:     app_name
+ *
+ * - Case_18:     app_name
+ *
+ * - Case_19:     app_name
+ *
+ * - Case_20:     app_name
+ *
+ * - Case_21:     app_name
+ *
+ * - Case_22:     app_name
  *
  * */
 
@@ -565,6 +613,54 @@ TEST(Test_2, Case_22)
     // In terminal: app_name just-a-value1 justavalue2
     const char* args_pack[] = {"", "just-a-value1", "justavalue2"};
     expected_token_list = {{"", "just-a-value1"}, {"", "justavalue2"}};
+
+    // Act
+    EXPECT_NO_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
+                                    const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(Test_3, Case_1)
+{
+    // Arrange
+    reset_all();
+    // In terminal: app_name --long_option1
+    const char* args_pack[] = {"", "--long_option1"};
+    expected_token_list = {{"long_option1", ""}};
+
+    // Act
+    EXPECT_NO_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
+                                    const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(Test_3, Case_2)
+{
+    // Arrange
+    reset_all();
+    // In terminal: app_name --long_option1 value1
+    const char* args_pack[] = {"", "--long_option1", "value1"};
+    expected_token_list = {{"long_option1", "value1"}};
+
+    // Act
+    EXPECT_NO_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
+                                    const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(Test_3, Case_3)
+{
+    // Arrange
+    reset_all();
+    // In terminal: app_name --long_option1=value1
+    const char* args_pack[] = {"", "--long_option1=value1"};
+    expected_token_list = {{"long_option1", "value1"}};
 
     // Act
     EXPECT_NO_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
