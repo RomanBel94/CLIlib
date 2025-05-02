@@ -73,8 +73,10 @@
  *
  * + Case_22:     app_name just-a-value1 justavalue2
  *
+ * + Case_23:     app_name -K_eY
+ *
  * -----------------------------------------------
- * - Test_3:      Short options with no validation
+ * - Test_3:      Long options with no validation
  * -----------------------------------------------
  *
  * + Case_1:      app_name --long_option1
@@ -120,6 +122,26 @@
  * - Case_21:     app_name
  *
  * - Case_22:     app_name
+ *
+ * -----------------------------------------------
+ * - Test_4:      Testing validation
+ * -----------------------------------------------
+ *
+ * - Case_1:      app_name --long_option1
+ *
+ * - Case_2:      app_name --long_option1
+ *
+ * - Case_3:      app_name --long_option1
+ *
+ * - Case_4:      app_name --long_option1
+ *
+ * - Case_5:      app_name --long_option1
+ *
+ * - Case_6:      app_name --long_option1
+ *
+ * - Case_7:      app_name --long_option1
+ *
+ * - Case_8:      app_name --long_option1
  *
  * */
 
@@ -617,6 +639,23 @@ TEST(Test_2, Case_22)
     // Act
     EXPECT_NO_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
                                     const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(Test_2, Case_23)
+{
+    // Arrange
+    reset_all();
+    // In terminal: app_name just-a-value1 justavalue2
+    const char* args_pack[] = {"", "-K_ey"};
+    // expected_token_list is empty
+
+    // Act
+    EXPECT_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
+                                 const_cast<char**>(args_pack)),
+                 CLI::cli_parsing_error);
 
     // Assert
     EXPECT_EQ(cli->tokens(), expected_token_list);
