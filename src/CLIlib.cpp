@@ -44,6 +44,12 @@ void CLI::_extract_short_opts(const char* opt)
 {
     while (*opt)
     {
+        if (*opt == '-')
+        {
+            ++opt;
+            continue;
+        }
+
         _current_param = *opt++;
         _current_value.clear();
 
