@@ -1,5 +1,4 @@
 ﻿#include "CLIlib.h"
-#include <regex>
 
 namespace CLI
 {
@@ -11,20 +10,17 @@ const std::shared_ptr<CLI>& CLI::get_instance()
 
 void CLI::parse_args(int argc, char** argv)
 {
-    std::regex short_option_pattern{R"(-([A-Z|a-z]+\d*)+)"};
-    std::regex long_option_pattern{R"(--[A-Z|a-z]\w+(-\w+)*(=\w+(-\w+)*)?)"};
-    std::regex value_pattern{R"([A-Z|a-z|\d]\w*(-[A-Z|a-z|\d]\w*)*)"};
-
     for (int i{1}; i < argc; ++i)
     {
+        std::string arg{argv[i]};
         // parameter is short
-        if (std::regex_match(argv[i], short_option_pattern))
+        if (arg[0] == '-' && std::isalpha(arg[1]))
             _extract_short_opts(argv[i] + 1);
         // parameter is long
-        else if (std::regex_match(argv[i], long_option_pattern))
+        else if (arg[0] == '-' && arg[1] == '-' && std::isalpha(arg[2]))
             _extract_long_opt(argv[i] + 2);
         // parsing value
-        else if (std::regex_match(argv[i], value_pattern))
+        else if (arg[0] != '-')
         {
             if (_tokens.back().second.empty()) // add value to existing token if
                                                // it doesn't have value
@@ -36,8 +32,11 @@ void CLI::parse_args(int argc, char** argv)
             }
         }
         else
+        {
+            clear();
             throw cli_parsing_error{"Invalid argument: " +
                                     std::string(argv[i])};
+        }
     }
 }
 
@@ -76,7 +75,7 @@ void CLI::_extract_long_opt(const char* opt)
 void CLI::_append_token()
 {
     // this token is not expected
-    if (!_valid_parameters.empty() && !_is_valid_token(_current_param))
+    if (!_is_valid_token(_current_param))
     {
         std::string wrong_option{_current_param};
         clear();
