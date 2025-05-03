@@ -103,7 +103,7 @@ TEST(TestingEmptyArguments, TwoMinusesWithShortKeyAfter)
     // Arrange
     reset_all();
     // In terminal: app_name -- -e
-    const char* args_pack[] = {"", "---"};
+    const char* args_pack[] = {"", "-- -e"};
     cli->add_opt('e');
     // expected_token_list is empty
 
