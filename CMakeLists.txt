@@ -24,21 +24,46 @@ project(
     DESCRIPTION "Small library for implementation command line interface."
 )
 
-add_library (CLIlib "${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.h")
+if(NOT ${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC AND NOT ${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
+    message(FATAL "Compiler: ${CMAKE_CXX_COMPILER_ID} is not supported")
+endif()
 
-# if CLIlib was built ad master project the include folder will be generated of refreshed automatically
+#main library target
+add_library (CLIlib 
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.h"
+)
+
+# if CLIlib is builing as master project the include and lib
+# directories will be generated of refreshed automatically
 if(CLI_MASTER_PROJECT)
     if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/include)
         file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include)
     endif()
+    if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+        file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+    endif()
     # after building library, header file will be copied into include directory
     add_custom_command(
         TARGET CLIlib POST_BUILD
-        COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.h ${CMAKE_CURRENT_SOURCE_DIR}/include/CLIlib.h
+        COMMAND cp
+        ARGS ${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.h ${CMAKE_CURRENT_SOURCE_DIR}/include/CLIlib.h
+        
+        COMMAND cp
+        ARGS ${CMAKE_CURRENT_BINARY_DIR}/*CLIlib* ${CMAKE_CURRENT_SOURCE_DIR}/lib/
     )
+
+    # target for tests
     add_executable(run_tests "${CMAKE_CURRENT_SOURCE_DIR}/src/tests/test.cpp")
-    target_include_directories(run_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/include)
-    target_link_libraries(run_tests PRIVATE CLIlib gtest gtest_main)
+    # settings for tests target
+    target_include_directories(run_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/include
+    )
+    target_link_libraries(run_tests PRIVATE
+        CLIlib
+        gtest
+        gtest_main
+    )
 
     # after building tests, they will start automatically
     add_custom_command(
