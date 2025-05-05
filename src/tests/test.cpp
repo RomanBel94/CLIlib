@@ -7,17 +7,23 @@
  *
  * TestingEmptyArguments
  *
- * - OneMinus: app_name -
+ * + OneMinus: app_name -
  *
- * - TwoMinuses: app_name --
+ * + TwoMinuses: app_name --
  *
- * - ThreeMinuses: app_name ---
+ * + ThreeMinuses: app_name ---
  *
- * - ShortKeyWithOneMinusAfter: app_name -k -
+ * + ShortKeyWithOneMinusAfter: app_name -k -
  *
- * - OneMinus: app_name -- -e
+ * + TwoMinusesWithShortKeyAfter: app_name -- -e
  *
- * - OneMinus: app_name -
+ * + ValueWithoutKey: app_name value
+ *
+ * TestingShortKeys
+ *
+ * + ValidShortKeyWithoutValue app_name -v
+ *
+ * + InvalidShortKeyWithoutValue app_name -i
  */
 
 auto cli = CLI::CLI::get_instance();
@@ -105,6 +111,58 @@ TEST(TestingEmptyArguments, TwoMinusesWithShortKeyAfter)
     // In terminal: app_name -- -e
     const char* args_pack[] = {"", "-- -e"};
     cli->add_opt('e');
+    // expected_token_list is empty
+
+    // Act
+    EXPECT_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
+                                 const_cast<char**>(args_pack)),
+                 CLI::cli_parsing_error);
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(TestingEmptyArguments, ValueWithoutKey)
+{
+    // Arrange
+    reset_all();
+    // In terminal: app_name value
+    const char* args_pack[] = {"", "value"};
+    cli->add_opt("");
+    expected_token_list = {{"", "value"}};
+
+    // Act
+    EXPECT_NO_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
+                                    const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(TestingEmptyArguments, ValidShortKeyWithoutValue)
+{
+    // Arrange
+    reset_all();
+    // In terminal: app_name -v
+    const char* args_pack[] = {"", "-v"};
+    cli->add_opt("v");
+    expected_token_list = {{"v", ""}};
+
+    // Act
+    EXPECT_NO_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
+                                    const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(TestingEmptyArguments, InvalidShortKeyWithoutValue)
+{
+    // Arrange
+    reset_all();
+    // In terminal: app_name -i
+    const char* args_pack[] = {"", "-i"};
+    cli->add_opt("v");
     // expected_token_list is empty
 
     // Act
