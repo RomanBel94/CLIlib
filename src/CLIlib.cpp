@@ -110,8 +110,14 @@ void CLI::_add_opt(const std::initializer_list<char>&& opt_list)
         _add_opt(opt);
 }
 
-void CLI::_add_opt(const _Param&& opts)
+void CLI::_add_opt(const _Param& opts)
 {
+    if (opts.empty())
+    {
+        _valid_parameters.emplace(opts);
+        return;
+    }
+
     for (auto opt : opts)
         _add_opt(opt);
 }
