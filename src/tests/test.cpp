@@ -24,6 +24,12 @@
  * + ValidShortKeyWithoutValue app_name -v
  *
  * + InvalidShortKeyWithoutValue app_name -i
+ *
+ * TestingLongOptions
+ *
+ * + ValidLongOptionWithoutValue app_name --opt1
+ *
+ * + ValidTwoLongOptionsWithoutValues app_name --opt1 --opt2
  */
 
 auto cli = CLI::CLI::get_instance();
@@ -139,7 +145,7 @@ TEST(TestingEmptyArguments, ValueWithoutKey)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(TestingEmptyArguments, ValidShortKeyWithoutValue)
+TEST(TestingShortKeys, ValidShortKeyWithoutValue)
 {
     // Arrange
     reset_all();
@@ -156,7 +162,7 @@ TEST(TestingEmptyArguments, ValidShortKeyWithoutValue)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(TestingEmptyArguments, InvalidShortKeyWithoutValue)
+TEST(TestingShortKeys, InvalidShortKeyWithoutValue)
 {
     // Arrange
     reset_all();
@@ -169,6 +175,40 @@ TEST(TestingEmptyArguments, InvalidShortKeyWithoutValue)
     EXPECT_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
                                  const_cast<char**>(args_pack)),
                  CLI::cli_parsing_error);
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(TestingLongOptions, ValidLongOptionWithoutValue)
+{
+    // Arrange
+    reset_all();
+    // In terminal: app_name -i
+    const char* args_pack[] = {"", "--opt1"};
+    cli->add_long_opt("opt1");
+    expected_token_list = {{"opt1", ""}};
+
+    // Act
+    EXPECT_NO_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
+                                    const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(TestingLongOptions, ValidTwoLongOptionsWithoutValues)
+{
+    // Arrange
+    reset_all();
+    // In terminal: app_name -i
+    const char* args_pack[] = {"", "--opt1", "--opt2"};
+    cli->add_long_opt("opt1", "opt2");
+    expected_token_list = {{"opt1", ""}, {"opt2", ""}};
+
+    // Act
+    EXPECT_NO_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
+                                    const_cast<char**>(args_pack)));
 
     // Assert
     EXPECT_EQ(cli->tokens(), expected_token_list);
