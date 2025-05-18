@@ -68,7 +68,7 @@ private:
     std::list<token> _tokens{};
 
     // Constructor is default
-    CLI() = default;
+    CLI() noexcept = default;
 
     // Other constructors are deleted
     CLI(const CLI&) = delete;
@@ -102,8 +102,8 @@ public:
         : std::runtime_error(error)
     {
     }
-    explicit cli_parsing_error(std::runtime_error&& error)
-        : std::runtime_error(std::forward<std::runtime_error>(error))
+    explicit cli_parsing_error(std::runtime_error&& error) noexcept
+        : std::runtime_error(std::move(error))
     {
     }
 };
