@@ -33,6 +33,7 @@ add_library (CLIlib
     "${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.h"
 )
+target_compile_options(CLIlib PRIVATE -fanalyzer)
 
 # if CLIlib is builing as master project the include and lib
 # directories will be generated of refreshed automatically
