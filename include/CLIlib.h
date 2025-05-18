@@ -86,6 +86,7 @@ private:
     void _add_opt(char opt);
     void _add_opt(const _Param& opts);
     void _add_opt(const std::initializer_list<char>&& opt_list);
+    void _add_long_opt(const _Param& long_opt);
     void _add_long_opt(const std::initializer_list<_Param>&& opt_list);
 };
 
