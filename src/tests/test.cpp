@@ -30,6 +30,8 @@
  * + ValidLongOptionWithoutValue app_name --opt1
  *
  * + ValidTwoLongOptionsWithoutValues app_name --opt1 --opt2
+ *
+ * + InvalidTwoLongOptionsWithoutValues app_name --opt1 --opt2
  */
 
 auto cli = CLI::CLI::get_instance();
@@ -209,6 +211,23 @@ TEST(TestingLongOptions, ValidTwoLongOptionsWithoutValues)
     // Act
     EXPECT_NO_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
                                     const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(TestingLongOptions, InvalidTwoLongOptionsWithoutValues)
+{
+    // Arrange
+    reset_all();
+    // In terminal: app_name -i
+    const char* args_pack[] = {"", "--opt1", "--opt2"};
+    // expected_token_list is empty
+
+    // Act
+    EXPECT_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
+                                 const_cast<char**>(args_pack)),
+                 CLI::cli_parsing_error);
 
     // Assert
     EXPECT_EQ(cli->tokens(), expected_token_list);
