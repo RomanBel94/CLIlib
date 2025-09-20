@@ -2,14 +2,15 @@
 
 #ifdef DEBUG
 #include <iostream>
-#define LOG(message) std::cerr << __FUNCTION__ ": " << #message << "\n";
+#define LOG(message)                                                           \
+    std::cerr << "[DEBUG] " << __FUNCTION__ << "(): " << #message << "\n";
 
 #endif
 
-void __err_log(const std::string& message)
+void __debug_log(const std::string& message)
 {
 #ifdef DEBUG
-    std::cerr << __FUNCTION__ << ": " << message << "\n";
+    std::cerr << "[DEBUG] " << message << "\n";
 #endif
 }
 
@@ -89,7 +90,8 @@ void CLI::_append_token()
     {
         std::string wrong_option{std::move(_current_param)};
         clear();
-        __err_log(wrong_option);
+        LOG("invalid option detected");
+        __debug_log(wrong_option);
         throw cli_parsing_error("[ERROR] Invalid option: " + wrong_option);
     }
     // if token is expected
