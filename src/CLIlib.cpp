@@ -1,5 +1,18 @@
 ﻿#include "CLIlib.h"
 
+#ifdef DEBUG
+#include <iostream>
+#define LOG(message) std::cerr << __FUNCTION__ ": " << #message << "\n";
+
+#endif
+
+void __err_log(const std::string& message)
+{
+#ifdef DEBUG
+    std::cerr << __FUNCTION__ << ": " << message << "\n";
+#endif
+}
+
 namespace CLI
 {
 const std::shared_ptr<CLI>& CLI::get_instance()
@@ -34,7 +47,7 @@ void CLI::parse_args(int argc, char** argv)
         else
         {
             clear();
-            throw cli_parsing_error{"Invalid argument: " + arg};
+            throw cli_parsing_error{"[ERROR] Invalid argument: " + arg};
         }
     }
 }
@@ -62,11 +75,9 @@ void CLI::_extract_long_opt(const char* opt)
     // for token which looks like --param=value
     while (*opt && *opt != '=')
         _current_param.push_back(*opt++);
-    if (*opt == '=')
-    {
-        ++opt;
+
+    if (*opt++ == '=')
         _current_value = opt;
-    }
 
     _append_token();
 }
@@ -76,11 +87,12 @@ void CLI::_append_token()
     // this token is not expected
     if (!_is_valid_token(_current_param))
     {
-        std::string wrong_option{_current_param};
+        std::string wrong_option{std::move(_current_param)};
         clear();
-        throw cli_parsing_error("ERROR: Invalid option: " + wrong_option);
+        __err_log(wrong_option);
+        throw cli_parsing_error("[ERROR] Invalid option: " + wrong_option);
     }
-    // if token is expected or valid parameters list is empty
+    // if token is expected
     _tokens.emplace_back(_current_param, _current_value);
 }
 

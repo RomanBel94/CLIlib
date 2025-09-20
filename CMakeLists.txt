@@ -24,6 +24,7 @@ project(
     DESCRIPTION "Small library for implementation command line interface."
 )
 
+# check if current compiler is supported
 if(NOT ${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC AND NOT ${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
     message(FATAL "Compiler: ${CMAKE_CXX_COMPILER_ID} is not supported")
 endif()
@@ -38,6 +39,9 @@ target_compile_options(CLIlib PRIVATE -fanalyzer)
 # if CLIlib is builing as master project the include and lib
 # directories will be generated of refreshed automatically
 if(CLI_MASTER_PROJECT)
+
+    target_compile_definitions(CLIlib PRIVATE -DDEBUG)
+
     if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/include)
         file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include)
     endif()
