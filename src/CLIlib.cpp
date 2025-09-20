@@ -1,27 +1,8 @@
 ﻿#include "CLIlib.h"
-
-#ifdef DEBUG
-#include <iostream>
-#define LOG(message)                                                           \
-    std::cerr << "[DEBUG] " << __FUNCTION__ << "(): " << #message << "\n";
-
-#endif
-
-void __debug_log(const std::string& message)
-{
-#ifdef DEBUG
-    std::cerr << "[DEBUG] " << message << "\n";
-#endif
-}
+#include <string>
 
 namespace CLI
 {
-const std::shared_ptr<CLI>& CLI::get_instance()
-{
-    static const std::shared_ptr<CLI> ptr{new CLI()};
-    return ptr;
-}
-
 void CLI::parse_args(int argc, char** argv)
 {
     for (int i{1}; i < argc; ++i)
@@ -36,20 +17,18 @@ void CLI::parse_args(int argc, char** argv)
         // parsing value
         else if (arg[0] != '-')
         {
-            if (_tokens.back().second.empty()) // add value to existing token if
-                                               // it doesn't have value
-                _tokens.back().second = argv[i];
+            if (!_tokens.empty() && _tokens.back().second.empty())
+                // add value to existing token if
+                // it doesn't have value
+                _tokens.back().second = arg;
             else // add new token with the same key as last and a new value
             {
-                _current_value = argv[i];
+                _current_value = arg;
                 _append_token();
             }
         }
         else
-        {
-            clear();
-            throw cli_parsing_error{"[ERROR] Invalid argument: " + arg};
-        }
+            _throw_exception("[ERROR] Invalid argument: " + arg);
     }
 }
 
@@ -87,15 +66,16 @@ void CLI::_append_token()
 {
     // this token is not expected
     if (!_is_valid_token(_current_param))
-    {
-        std::string wrong_option{std::move(_current_param)};
-        clear();
-        LOG("invalid option detected");
-        __debug_log(wrong_option);
-        throw cli_parsing_error("[ERROR] Invalid option: " + wrong_option);
-    }
+        _throw_exception("[ERROR] Invalid option: " + _current_param);
+
     // if token is expected
     _tokens.emplace_back(_current_param, _current_value);
+}
+
+void CLI::_throw_exception(const std::string& msg)
+{
+    clear();
+    throw cli_parsing_error{msg};
 }
 
 bool CLI::_is_valid_token(const _Param& opt) const noexcept

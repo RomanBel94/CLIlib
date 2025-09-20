@@ -2,7 +2,6 @@
 #ifndef CLI_LIB_H
 
 #include <list>
-#include <memory>
 #include <stdexcept>
 #include <unordered_set>
 
@@ -15,9 +14,6 @@ public:
     using _Param = std::string;
     using _Value = std::string;
     using token = std::pair<_Param, _Value>;
-
-    // Returns std::shared_ptr that points to static CLI instance
-    static const std::shared_ptr<CLI>& get_instance();
 
     // Parse command-line arguments and place them into std::list of tokens
     void parse_args(int argc, char** argv);
@@ -54,21 +50,24 @@ public:
         _valid_parameters.clear();
     }
 
+    // Constructor is default
+    CLI() noexcept = default;
+
     // Destructor is default
-    ~CLI() = default;
+    ~CLI() noexcept = default;
 
 private:
     // Current parameter that was read
     _Param _current_param{};
+
     // Current parameter value that was read
     _Value _current_value{};
+
     // Valid parameters, if it is empty, all parameters are valid
     std::unordered_set<_Param> _valid_parameters{};
+
     // List of read tokens
     std::list<token> _tokens{};
-
-    // Constructor is default
-    CLI() noexcept = default;
 
     // Other constructors are deleted
     CLI(const CLI&) = delete;
@@ -80,6 +79,7 @@ private:
     void _extract_short_opts(const char* opt);
     void _extract_long_opt(const char* opt);
     void _append_token();
+    inline void _throw_exception(const std::string& msg);
     bool _is_valid_token(const _Param& opt) const noexcept;
 
     // Overloaded functions for adding new options to be valid

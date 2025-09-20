@@ -1,4 +1,5 @@
 #include "../CLIlib.h"
+#include <memory>
 
 // has to be included after all other includes
 #include "gtest/gtest.h"
@@ -34,7 +35,7 @@
  * + InvalidTwoLongOptionsWithoutValues app_name --opt1 --opt2
  */
 
-auto cli = CLI::CLI::get_instance();
+auto cli = std::make_unique<CLI::CLI>();
 std::list<CLI::CLI::token> expected_token_list;
 
 inline void reset_all()
@@ -186,7 +187,7 @@ TEST(TestingLongOptions, ValidLongOptionWithoutValue)
 {
     // Arrange
     reset_all();
-    // In terminal: app_name -i
+    // In terminal: app_name --opt1
     const char* args_pack[] = {"", "--opt1"};
     cli->add_long_opt("opt1");
     expected_token_list = {{"opt1", ""}};
@@ -203,7 +204,7 @@ TEST(TestingLongOptions, ValidTwoLongOptionsWithoutValues)
 {
     // Arrange
     reset_all();
-    // In terminal: app_name -i
+    // In terminal: app_name --opt1 --opt2
     const char* args_pack[] = {"", "--opt1", "--opt2"};
     cli->add_long_opt("opt1", "opt2");
     expected_token_list = {{"opt1", ""}, {"opt2", ""}};
@@ -220,7 +221,7 @@ TEST(TestingLongOptions, InvalidTwoLongOptionsWithoutValues)
 {
     // Arrange
     reset_all();
-    // In terminal: app_name -i
+    // In terminal: app_name --opt1 --opt2
     const char* args_pack[] = {"", "--opt1", "--opt2"};
     // expected_token_list is empty
 
