@@ -15,10 +15,10 @@ void CLI::parse_args(int argc, char** argv)
         std::string arg{argv[i]};
         // parameter is short
         if (arg[0] == '-' && std::isalpha(arg[1]))
-            _extract_short_opts(argv[i] + 1);
+            _extract_short_opts(&arg[1]);
         // parameter is long
         else if (arg[0] == '-' && arg[1] == '-' && std::isalpha(arg[2]))
-            _extract_long_opt(argv[i] + 2);
+            _extract_long_opt(&arg[2]);
         // parsing value
         else if (arg[0] != '-')
         {
@@ -34,8 +34,7 @@ void CLI::parse_args(int argc, char** argv)
         else
         {
             clear();
-            throw cli_parsing_error{"Invalid argument: " +
-                                    std::string(argv[i])};
+            throw cli_parsing_error{"Invalid argument: " + arg};
         }
     }
 }
@@ -44,12 +43,6 @@ void CLI::_extract_short_opts(const char* opt)
 {
     while (*opt)
     {
-        if (*opt == '-')
-        {
-            ++opt;
-            continue;
-        }
-
         _current_param = *opt++;
         _current_value.clear();
 
