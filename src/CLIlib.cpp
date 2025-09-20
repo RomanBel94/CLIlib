@@ -1,5 +1,21 @@
 ﻿#include "CLIlib.h"
-#include <string>
+
+#ifdef NDEBUG
+#define LOG(message)
+#define ERR(message)
+#define DEB(message)
+#else
+#include <iostream>
+#define LOG(message)                                                           \
+    std::clog << "[LOG]: " << __LINE__ << ": " << __PRETTY_FUNCTION__ << ": "  \
+              << #message << '\n';
+#define ERR(message)                                                           \
+    std::clog << "[ERR]: " << __LINE__ << ": " << __PRETTY_FUNCTION__ << ": "  \
+              << #message << '\n';
+#define DEB(message)                                                           \
+    std::clog << "[DEB]: " << __LINE__ << ": " << __PRETTY_FUNCTION__ << ": "  \
+              << #message << '\n';
+#endif
 
 namespace CLI
 {
