@@ -79,7 +79,7 @@ private:
     void _extract_short_opts(const char* opt);
     void _extract_long_opt(const char* opt);
     void _append_token();
-    inline void _throw_exception(const std::string& msg);
+    void _throw_exception(const std::string& msg);
     bool _is_valid_token(const _Param& opt) const noexcept;
 
     // Overloaded functions for adding new options to be valid

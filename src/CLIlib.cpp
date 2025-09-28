@@ -28,10 +28,11 @@ void CLI::parse_args(int argc, char** argv)
         if (arg[0] == '-' && std::isalpha(arg[1]))
             _extract_short_opts(&arg[1]);
         // parameter is long
-        else if (arg[0] == '-' && arg[1] == '-' && std::isalpha(arg[2]))
+        else if (arg.substr(0, 2) == "--" && std::isalpha(arg[2]) &&
+                 arg.size() > 3)
             _extract_long_opt(&arg[2]);
         // parsing value
-        else if (arg[0] != '-')
+        else if (std::isalpha(arg[0]))
         {
             if (!_tokens.empty() && _tokens.back().second.empty())
                 // add value to existing token if

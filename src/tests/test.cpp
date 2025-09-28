@@ -33,6 +33,9 @@
  * + ValidTwoLongOptionsWithoutValues app_name --opt1 --opt2
  *
  * + InvalidTwoLongOptionsWithoutValues app_name --opt1 --opt2
+ *
+ * + ValidShortKeyWithTwoMinuses app_name --i
+ *
  */
 
 auto cli = std::make_unique<CLI::CLI>();
@@ -223,6 +226,24 @@ TEST(TestingLongOptions, InvalidTwoLongOptionsWithoutValues)
     reset_all();
     // In terminal: app_name --opt1 --opt2
     const char* args_pack[] = {"", "--opt1", "--opt2"};
+    // expected_token_list is empty
+
+    // Act
+    EXPECT_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
+                                 const_cast<char**>(args_pack)),
+                 CLI::cli_parsing_error);
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(TestingLongOptions, ValidShortKeyWithTwoMinuses)
+{
+    // Arrange
+    reset_all();
+    // In terminal: app_name --o
+    const char* args_pack[] = {"", "--o"};
+    cli->add_opt("o");
     // expected_token_list is empty
 
     // Act
