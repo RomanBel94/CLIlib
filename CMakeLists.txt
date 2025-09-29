@@ -36,7 +36,11 @@ add_library (CLIlib
     "${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/CLIlib.h"
 )
-target_compile_options(CLIlib PRIVATE -fanalyzer)
+
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
+    target_compile_options(CLIlib PRIVATE -fanalyzer)
+endif()
+
 if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
     target_compile_definitions(CLIlib PRIVATE -DNDEBUG)
 endif()
