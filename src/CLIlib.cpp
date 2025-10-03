@@ -37,6 +37,9 @@ void CLI::parse_args(int argc, char** argv)
             if (!_tokens.empty() && _tokens.back().second.empty())
                 // add value to existing token if
                 // it doesn't have value
+                //
+                // Commands like "app -k 4" doesn't work yet
+                //
                 _tokens.back().second = arg;
             else // add new token with the same key as last and a new value
             {
