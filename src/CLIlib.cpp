@@ -32,14 +32,11 @@ void CLI::parse_args(int argc, char** argv)
                  arg.size() > 3)
             _extract_long_opt(&arg[2]);
         // parsing value
-        else if (std::isalpha(arg[0]))
+        else if (std::isalpha(arg[0]) || std::isdigit(arg[0]))
         {
             if (!_tokens.empty() && _tokens.back().second.empty())
                 // add value to existing token if
                 // it doesn't have value
-                //
-                // Commands like "app -k 4" doesn't work yet
-                //
                 _tokens.back().second = arg;
             else // add new token with the same key as last and a new value
             {
@@ -48,7 +45,7 @@ void CLI::parse_args(int argc, char** argv)
             }
         }
         else
-            _throw_exception("[ERROR] Invalid argument: " + arg);
+            _throw_exception("Invalid argument: " + arg);
     }
 }
 
@@ -86,7 +83,7 @@ void CLI::_append_token()
 {
     // this token is not expected
     if (!_is_valid_token(_current_param))
-        _throw_exception("[ERROR] Invalid option: " + _current_param);
+        _throw_exception("Invalid option: " + _current_param);
 
     // if token is expected
     _tokens.emplace_back(_current_param, _current_value);
