@@ -98,11 +98,6 @@ bool CLI::_is_valid_token(const _Param& opt) const noexcept
     return _valid_parameters.find(opt) != _valid_parameters.end();
 }
 
-bool CLI::_is_valid_value(const _Value& val) const noexcept
-{
-    return std::isalpha(val[0]) || std::isdigit(val[0]) || val[0] == '/';
-}
-
 void CLI::_add_long_opt(const _Param& long_opt)
 {
     _valid_parameters.emplace(long_opt);
