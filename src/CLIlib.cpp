@@ -32,7 +32,7 @@ void CLI::parse_args(int argc, char** argv)
                  arg.size() > 3)
             _extract_long_opt(&arg[2]);
         // parsing value
-        else if (std::isalpha(arg[0]) || std::isdigit(arg[0]))
+        else if (_is_valid_value(arg))
         {
             if (!_tokens.empty() && _tokens.back().second.empty())
                 // add value to existing token if
@@ -98,6 +98,11 @@ void CLI::_throw_exception(const std::string& msg)
 bool CLI::_is_valid_token(const _Param& opt) const noexcept
 {
     return _valid_parameters.find(opt) != _valid_parameters.end();
+}
+
+bool CLI::_is_valid_value(const _Value& val) const noexcept
+{
+    return std::isalpha(val[0]) || std::isdigit(val[0]) || val[0] == '/';
 }
 
 void CLI::_add_long_opt(const _Param& long_opt)

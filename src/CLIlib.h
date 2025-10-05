@@ -81,6 +81,7 @@ private:
     void _append_token();
     void _throw_exception(const std::string& msg);
     bool _is_valid_token(const _Param& opt) const noexcept;
+    bool _is_valid_value(const _Value& val) const noexcept;
 
     // Overloaded functions for adding new options to be valid
     void _add_opt(char opt);
