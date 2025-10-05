@@ -80,7 +80,7 @@ void CLI::_extract_long_opt(const char* opt)
 void CLI::_append_token()
 {
     // this token is not expected
-    if (!_is_valid_token(_current_param))
+    if (_valid_parameters.find(_current_param) == _valid_parameters.end())
         _throw_exception("Invalid option: " + _current_param);
 
     // if token is expected
@@ -91,11 +91,6 @@ void CLI::_throw_exception(const std::string& msg)
 {
     clear();
     throw cli_parsing_error{msg};
-}
-
-bool CLI::_is_valid_token(const _Param& opt) const noexcept
-{
-    return _valid_parameters.find(opt) != _valid_parameters.end();
 }
 
 void CLI::_add_long_opt(const _Param& long_opt)
