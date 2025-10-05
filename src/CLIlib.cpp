@@ -32,7 +32,7 @@ void CLI::parse_args(int argc, char** argv)
                  arg.size() > 3)
             _extract_long_opt(&arg[2]);
         // parsing value
-        else if (_is_valid_value(arg))
+        else
         {
             if (!_tokens.empty() && _tokens.back().second.empty())
                 // add value to existing token if
@@ -44,8 +44,6 @@ void CLI::parse_args(int argc, char** argv)
                 _append_token();
             }
         }
-        else
-            _throw_exception("Invalid argument: " + arg);
     }
 }
 

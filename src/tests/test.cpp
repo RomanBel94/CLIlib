@@ -109,12 +109,11 @@ TEST(TestingEmptyArguments, ShortKeyWithOneMinusAfter)
     // In terminal: app_name -k -
     const char* args_pack[] = {"", "-k", "-"};
     cli->add_opt('k');
-    // expected_token_list is empty
+    expected_token_list = {{"k", "-"}};
 
     // Act
-    EXPECT_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
-                                 const_cast<char**>(args_pack)),
-                 CLI::cli_parsing_error);
+    EXPECT_NO_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
+                                    const_cast<char**>(args_pack)));
 
     // Assert
     EXPECT_EQ(cli->tokens(), expected_token_list);
