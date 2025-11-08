@@ -1,4 +1,5 @@
 ﻿#include "CLIlib.h"
+#include <algorithm>
 
 #ifdef NDEBUG
 #define LOG(message)
@@ -100,16 +101,16 @@ void CLI::_add_long_opt(const _Param& long_opt)
 
 void CLI::_add_long_opt(const std::initializer_list<_Param>&& opt_list)
 {
-    for (const auto& opt : opt_list)
-        _add_long_opt(opt);
+    std::for_each(opt_list.begin(), opt_list.end(),
+                  [this](const _Param& param) { _add_long_opt(param); });
 }
 
 void CLI::_add_opt(char opt) { _valid_parameters.emplace(1, opt); }
 
 void CLI::_add_opt(const std::initializer_list<char>&& opt_list)
 {
-    for (auto opt : opt_list)
-        _add_opt(opt);
+    std::for_each(opt_list.begin(), opt_list.end(),
+                  [this](char opt) { _add_opt(opt); });
 }
 
 void CLI::_add_opt(const _Param& opts)
@@ -120,7 +121,7 @@ void CLI::_add_opt(const _Param& opts)
         return;
     }
 
-    for (auto opt : opts)
-        _add_opt(opt);
+    std::for_each(opts.begin(), opts.end(),
+                  [this](char opt) { _add_opt(opt); });
 }
 } // namespace CLI
