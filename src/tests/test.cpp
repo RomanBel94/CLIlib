@@ -18,8 +18,6 @@
  *
  * + TwoMinusesWithShortKeyAfter: app_name -- -e
  *
- * + ValueWithoutKey: app_name value
- *
  * TestingShortKeys
  *
  * + ValidShortKeyWithoutValue app_name -v
@@ -108,7 +106,7 @@ TEST(TestingEmptyArguments, ShortKeyWithOneMinusAfter)
     reset_all();
     // In terminal: app_name -k -
     const char* args_pack[] = {"", "-k", "-"};
-    cli->add_opt('k');
+    cli->add_short_option('k');
     expected_token_list = {{"k", "-"}};
 
     // Act
@@ -125,7 +123,7 @@ TEST(TestingEmptyArguments, TwoMinusesWithShortKeyAfter)
     reset_all();
     // In terminal: app_name -- -e
     const char* args_pack[] = {"", "-- -e"};
-    cli->add_opt('e');
+    cli->add_short_option('e');
     // expected_token_list is empty
 
     // Act
@@ -137,30 +135,13 @@ TEST(TestingEmptyArguments, TwoMinusesWithShortKeyAfter)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
-TEST(TestingEmptyArguments, ValueWithoutKey)
-{
-    // Arrange
-    reset_all();
-    // In terminal: app_name value
-    const char* args_pack[] = {"", "value"};
-    cli->add_opt("");
-    expected_token_list = {{"", "value"}};
-
-    // Act
-    EXPECT_NO_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
-                                    const_cast<char**>(args_pack)));
-
-    // Assert
-    EXPECT_EQ(cli->tokens(), expected_token_list);
-}
-
 TEST(TestingShortKeys, ValidShortKeyWithoutValue)
 {
     // Arrange
     reset_all();
     // In terminal: app_name -v
     const char* args_pack[] = {"", "-v"};
-    cli->add_opt("v");
+    cli->add_short_option('v');
     expected_token_list = {{"v", ""}};
 
     // Act
@@ -177,7 +158,7 @@ TEST(TestingShortKeys, InvalidShortKeyWithoutValue)
     reset_all();
     // In terminal: app_name -i
     const char* args_pack[] = {"", "-i"};
-    cli->add_opt("v");
+    cli->add_short_option('v');
     // expected_token_list is empty
 
     // Act
@@ -195,7 +176,7 @@ TEST(TestingShortKeys, ValidShortKeyWithNearValue)
     reset_all();
     // In terminal: app_name -k3
     const char* args_pack[] = {"", "-k3"};
-    cli->add_opt("k");
+    cli->add_short_option('k');
     expected_token_list = {{"k", "3"}};
 
     // Act
@@ -212,7 +193,7 @@ TEST(TestingShortKeys, ValidShortKeyWithFarValue)
     reset_all();
     // In terminal: app_name -k 3
     const char* args_pack[] = {"", "-k", "3"};
-    cli->add_opt("k");
+    cli->add_short_option('k');
     expected_token_list = {{"k", "3"}};
 
     // Act
@@ -229,7 +210,7 @@ TEST(TestingLongOptions, ValidLongOptionWithoutValue)
     reset_all();
     // In terminal: app_name --opt1
     const char* args_pack[] = {"", "--opt1"};
-    cli->add_long_opt("opt1");
+    cli->add_long_option("opt1");
     expected_token_list = {{"opt1", ""}};
 
     // Act
@@ -246,7 +227,8 @@ TEST(TestingLongOptions, ValidTwoLongOptionsWithoutValues)
     reset_all();
     // In terminal: app_name --opt1 --opt2
     const char* args_pack[] = {"", "--opt1", "--opt2"};
-    cli->add_long_opt("opt1", "opt2");
+    cli->add_long_option("opt1");
+    cli->add_long_option("opt2");
     expected_token_list = {{"opt1", ""}, {"opt2", ""}};
 
     // Act
@@ -280,7 +262,7 @@ TEST(TestingLongOptions, ValidShortKeyWithTwoMinuses)
     reset_all();
     // In terminal: app_name --o
     const char* args_pack[] = {"", "--o"};
-    cli->add_opt("o");
+    cli->add_short_option('o');
     // expected_token_list is empty
 
     // Act

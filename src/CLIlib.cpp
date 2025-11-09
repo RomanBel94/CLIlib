@@ -1,5 +1,4 @@
 ﻿#include "CLIlib.h"
-#include <algorithm>
 
 #ifdef NDEBUG
 #define LOG(message)
@@ -52,7 +51,7 @@ void CLI::_extract_short_opts(const char* opt)
 {
     while (*opt)
     {
-        _current_param = *opt++;
+        _current_option = *opt++;
         _current_value.clear();
 
         // for token which looks like -p777
@@ -65,12 +64,12 @@ void CLI::_extract_short_opts(const char* opt)
 
 void CLI::_extract_long_opt(const char* opt)
 {
-    _current_param.clear();
+    _current_option.clear();
     _current_value.clear();
 
     // for token which looks like --param=value
     while (*opt && *opt != '=')
-        _current_param.push_back(*opt++);
+        _current_option.push_back(*opt++);
 
     if (*opt++ == '=')
         _current_value = opt;
@@ -81,11 +80,11 @@ void CLI::_extract_long_opt(const char* opt)
 void CLI::_append_token()
 {
     // this token is not expected
-    if (_valid_parameters.find(_current_param) == _valid_parameters.end())
-        _throw_exception("Invalid option: " + _current_param);
+    if (_valid_parameters.find(_current_option) == _valid_parameters.end())
+        _throw_exception("Invalid option: " + _current_option);
 
     // if token is expected
-    _tokens.emplace_back(_current_param, _current_value);
+    _tokens.emplace_back(_current_option, _current_value);
 }
 
 void CLI::_throw_exception(const std::string& msg)
@@ -94,34 +93,16 @@ void CLI::_throw_exception(const std::string& msg)
     throw cli_parsing_error{msg};
 }
 
-void CLI::_add_long_opt(const _Param& long_opt)
+void CLI::add_long_option(const _Option& long_opt)
 {
     _valid_parameters.emplace(long_opt);
 }
 
-void CLI::_add_long_opt(const std::initializer_list<_Param>&& opt_list)
+void CLI::add_long_option(const _Option&& long_opt)
 {
-    std::for_each(opt_list.begin(), opt_list.end(),
-                  [this](const _Param& param) { _add_long_opt(param); });
+    _valid_parameters.emplace(std::move(long_opt));
 }
 
-void CLI::_add_opt(char opt) { _valid_parameters.emplace(1, opt); }
+void CLI::add_short_option(char opt) { _valid_parameters.emplace(1, opt); }
 
-void CLI::_add_opt(const std::initializer_list<char>&& opt_list)
-{
-    std::for_each(opt_list.begin(), opt_list.end(),
-                  [this](char opt) { _add_opt(opt); });
-}
-
-void CLI::_add_opt(const _Param& opts)
-{
-    if (opts.empty())
-    {
-        _valid_parameters.emplace(opts);
-        return;
-    }
-
-    std::for_each(opts.begin(), opts.end(),
-                  [this](char opt) { _add_opt(opt); });
-}
 } // namespace CLI

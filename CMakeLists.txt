@@ -21,7 +21,7 @@ message(STATUS "CLIlib build type is: ${CMAKE_BUILD_TYPE}")
 
 project(
     CLIlib
-    VERSION 0.9.6
+    VERSION 0.9.7
     LANGUAGES CXX
     DESCRIPTION "Small library for implementation command line interface."
 )
@@ -39,6 +39,8 @@ add_library (CLIlib
 
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
     target_compile_options(CLIlib PRIVATE -fanalyzer)
+elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
+    target_compile_options(CLIlib PRIVATE /analyze)
 endif()
 
 if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
@@ -53,9 +55,11 @@ if(CLI_MASTER_PROJECT)
     if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/include)
         file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include)
     endif()
+
     if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib)
         file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
     endif()
+
     # after building library, header file will be copied into include directory
     add_custom_command(
         TARGET CLIlib POST_BUILD
@@ -68,6 +72,7 @@ if(CLI_MASTER_PROJECT)
 
     # target for tests
     add_executable(run_tests "${CMAKE_CURRENT_SOURCE_DIR}/src/tests/test.cpp")
+
     # settings for tests target
     target_include_directories(run_tests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/include
