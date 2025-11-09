@@ -11,14 +11,14 @@ class CLI final
 {
 public:
     // Type aliases
-    using _Option = std::string;
-    using _Value = std::string;
-    using token = std::pair<_Option, _Value>;
+    using _option = std::string;
+    using _value = std::string;
+    using token = std::pair<_option, _value>;
 
     // Overloaded functions for adding new options to be valid
     void add_short_option(char opt);
-    void add_long_option(const _Option& long_opt);
-    void add_long_option(const _Option&& long_opt);
+    void add_long_option(const _option& long_opt);
+    void add_long_option(const _option&& long_opt);
 
     // Parse command-line arguments and place them into std::list of tokens
     void parse_args(int argc, char** argv);
@@ -27,7 +27,7 @@ public:
     inline const std::list<token>& tokens() const noexcept { return _tokens; }
 
     // Returns valid options
-    inline const std::unordered_set<_Option>& valid_parameters() const noexcept
+    inline const std::unordered_set<_option>& valid_parameters() const noexcept
     {
         return _valid_parameters;
     }
@@ -49,13 +49,13 @@ public:
 
 private:
     // Current parameter that was read
-    _Option _current_option{};
+    _option _current_option{};
 
     // Current parameter value that was read
-    _Value _current_value{};
+    _value _current_value{};
 
     // Valid parameters, if it is empty, all parameters are valid
-    std::unordered_set<_Option> _valid_parameters{};
+    std::unordered_set<_option> _valid_parameters{};
 
     // List of read tokens
     std::list<token> _tokens{};
@@ -74,19 +74,12 @@ private:
 };
 
 // Special type of exception
-class cli_parsing_error final : public std::runtime_error
+class cli_parsing_error final : public std::invalid_argument
 {
 public:
-    explicit cli_parsing_error(const char* str) : std::runtime_error(str) {}
-    explicit cli_parsing_error(const std::string& str) : std::runtime_error(str)
-    {
-    }
-    explicit cli_parsing_error(const std::runtime_error& error)
-        : std::runtime_error(error)
-    {
-    }
-    explicit cli_parsing_error(std::runtime_error&& error) noexcept
-        : std::runtime_error(std::move(error))
+    explicit cli_parsing_error(const char* str) : std::invalid_argument(str) {}
+    explicit cli_parsing_error(const std::string& str)
+        : std::invalid_argument(str)
     {
     }
 };

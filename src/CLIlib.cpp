@@ -93,12 +93,12 @@ void CLI::_throw_exception(const std::string& msg)
     throw cli_parsing_error{msg};
 }
 
-void CLI::add_long_option(const _Option& long_opt)
+void CLI::add_long_option(const _option& long_opt)
 {
     _valid_parameters.emplace(long_opt);
 }
 
-void CLI::add_long_option(const _Option&& long_opt)
+void CLI::add_long_option(const _option&& long_opt)
 {
     _valid_parameters.emplace(std::move(long_opt));
 }
