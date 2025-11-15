@@ -7,6 +7,14 @@
 
 namespace CLI
 {
+enum class OptionType : unsigned char
+{
+    undefined,
+    short_option,
+    long_option,
+    total_option_types
+};
+
 class CLI final
 {
 public:
@@ -24,21 +32,22 @@ public:
     void parse_args(int argc, char** argv);
 
     // Returns parsed tokens
-    inline const std::list<token>& tokens() const noexcept { return _tokens; }
+    const std::list<token>& tokens() const noexcept { return _tokens; }
 
     // Returns valid options
-    inline const std::unordered_set<_option>& valid_parameters() const noexcept
+    const std::unordered_set<_option>& valid_parameters() const noexcept
     {
         return _valid_parameters;
     }
 
     // Clear all content of CLI object
-    inline void clear() noexcept
+    void clear() noexcept
     {
         _current_option.clear();
         _current_value.clear();
         _tokens.clear();
         _valid_parameters.clear();
+        _last_option_read = OptionType::undefined;
     }
 
     // Constructor is default
@@ -48,6 +57,9 @@ public:
     ~CLI() noexcept = default;
 
 private:
+    // type of the last option was read
+    OptionType _last_option_read{OptionType::undefined};
+
     // Current parameter that was read
     _option _current_option{};
 

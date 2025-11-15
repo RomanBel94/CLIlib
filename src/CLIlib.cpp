@@ -60,6 +60,7 @@ void CLI::_extract_short_opts(const char* opt)
 
         _append_token();
     }
+    _last_option_read = OptionType::short_option;
 }
 
 void CLI::_extract_long_opt(const char* opt)
@@ -75,6 +76,8 @@ void CLI::_extract_long_opt(const char* opt)
         _current_value = opt;
 
     _append_token();
+
+    _last_option_read = OptionType::long_option;
 }
 
 void CLI::_append_token()
