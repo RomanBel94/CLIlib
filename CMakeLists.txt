@@ -21,7 +21,7 @@ message(STATUS "CLIlib build type is: ${CMAKE_BUILD_TYPE}")
 
 project(
     CLIlib
-    VERSION 0.9.7
+    VERSION 0.9.7.1
     LANGUAGES CXX
     DESCRIPTION "Small library for implementation command line interface."
 )
