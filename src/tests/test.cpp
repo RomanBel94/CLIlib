@@ -26,7 +26,11 @@
  *
  * + ValidShortKeyWithNearValue app_name -k3
  *
+ * + ValidShortKeyWithNearValueAndLetters app_name -k3abc
+ *
  * + ValidShortKeyWithFarValue app_name -k 3
+ *
+ * + ValidShortKeyWithFarValueAndLetters app_name -k 3abc
  *
  * TestingLongOptions
  *
@@ -187,6 +191,24 @@ TEST(TestingShortKeys, ValidShortKeyWithNearValue)
     EXPECT_EQ(cli->tokens(), expected_token_list);
 }
 
+TEST(TestingShortKeys, ValidShortKeyWithNearValueAndLetters)
+{
+    // Arrange
+    reset_all();
+    // In terminal: app_name -k3
+    const char* args_pack[] = {"", "-k3abc"};
+    cli->add_short_option('k');
+    // expected_token_list is empty
+
+    // Act
+    EXPECT_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
+                                 const_cast<char**>(args_pack)),
+                 CLI::cli_parsing_error);
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
 TEST(TestingShortKeys, ValidShortKeyWithFarValue)
 {
     // Arrange
@@ -195,6 +217,23 @@ TEST(TestingShortKeys, ValidShortKeyWithFarValue)
     const char* args_pack[] = {"", "-k", "3"};
     cli->add_short_option('k');
     expected_token_list = {{"k", "3"}};
+
+    // Act
+    EXPECT_NO_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
+                                    const_cast<char**>(args_pack)));
+
+    // Assert
+    EXPECT_EQ(cli->tokens(), expected_token_list);
+}
+
+TEST(TestingShortKeys, ValidShortKeyWithFarValueAndLetters)
+{
+    // Arrange
+    reset_all();
+    // In terminal: app_name -k 3abc
+    const char* args_pack[] = {"", "-k", "3abc"};
+    cli->add_short_option('k');
+    expected_token_list = {{"k", "3abc"}};
 
     // Act
     EXPECT_NO_THROW(cli->parse_args(sizeof(args_pack) / sizeof(*args_pack),
